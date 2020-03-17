@@ -14,7 +14,43 @@ def score(starter, hand):
     running_score += fifteens_score
     running_msg = running_msg + fifteens_msg
 
+    runs_score, runs_msg = runs(starter, hand)
+    running_score += runs_score
+    running_msg = running_msg + runs_msg
+
     return running_score, running_msg
+
+
+def runs(starter, hand):
+    all_cards = hand + [starter]
+    print("Combined hand: " + str(all_cards))
+
+    running_msg = ""
+    all_cards.sort()
+    current_run_length = 0
+    last_card = None
+    for card in all_cards:
+        if current_run_length == 0:
+            current_run_length += 1
+        else:
+            if card[0] == last_card[0] + 1:
+                current_run_length += 1
+            else:
+                current_run_length = 1
+
+        last_card = card
+
+    if current_run_length >= 3:
+        return current_run_length, running_msg
+    else:
+        return 0, ""
+
+
+def face_valuer(raw_card_value):
+    if raw_card_value <= 10:
+        return raw_card_value
+    else:
+        return 10
 
 
 def fifteens(starter, hand):
@@ -25,16 +61,37 @@ def fifteens(starter, hand):
     score_msg = ""
 
     combinations_2_cards = itertools.combinations(all_cards, 2)
-    for two_card_sequence in combinations_2_cards:
-        if two_card_sequence[0][0] + two_card_sequence[1][0] == 15:
+    for two_card_seq in combinations_2_cards:
+        if face_valuer(two_card_seq[0][0]) + face_valuer(two_card_seq[1][0]) == 15:
             running_score += 2
-            score_msg = score_msg + f"15 from {two_card_sequence}"
+            score_msg = score_msg + f"15 from {two_card_seq}"
 
     combinations_3_cards = itertools.combinations(all_cards, 3)
-    for three_card_sequence in combinations_3_cards:
-        if three_card_sequence[0][0] + three_card_sequence[1][0] + three_card_sequence[2][0] == 15:
+    for three_card_seq in combinations_3_cards:
+        if face_valuer(three_card_seq[0][0]) + \
+                face_valuer(three_card_seq[1][0]) + \
+                face_valuer(three_card_seq[2][0]) == 15:
             running_score += 2
-            score_msg = score_msg + f"15 from {three_card_sequence}"
+            score_msg = score_msg + f"15 from {three_card_seq}"
+
+    combinations_4_cards = itertools.combinations(all_cards, 4)
+    for four_card_seq in combinations_4_cards:
+        if face_valuer(four_card_seq[0][0]) + \
+                face_valuer(four_card_seq[1][0]) + \
+                face_valuer(four_card_seq[2][0]) + \
+                face_valuer(four_card_seq[3][0]) == 15:
+            running_score += 2
+            score_msg = score_msg + f"15 from {four_card_seq}"
+
+    combinations_5_cards = itertools.combinations(all_cards, 5)
+    for five_card_seq in combinations_5_cards:
+        if face_valuer(five_card_seq[0][0]) + \
+                face_valuer(five_card_seq[1][0]) + \
+                face_valuer(five_card_seq[2][0]) + \
+                face_valuer(five_card_seq[3][0]) + \
+                face_valuer(five_card_seq[4][0]) == 15:
+            running_score += 2
+            score_msg = score_msg + f"15 from {five_card_seq}"
 
     return running_score, score_msg
 
