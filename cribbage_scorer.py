@@ -26,7 +26,7 @@ def card_numbers(starter, hand):
     print("Combined hand: " + str(hand + [starter]))
     card_nums = extract_numbers(hand + [starter])
     card_nums.sort()
-    return card_nums
+    return card_nums.copy()
 
 
 def extract_numbers(card_tuples):
@@ -35,6 +35,16 @@ def extract_numbers(card_tuples):
         ranks.append(card[0])
 
     return ranks
+
+
+def count_multiples(card_nums):
+    multiples_list = []
+    for key, group in itertools.groupby(card_nums):
+        group_length = len(list(group))
+        if group_length >= 3:
+            multiples_list.append(group)
+
+    return multiples_list
 
 
 def runs(card_nums):
