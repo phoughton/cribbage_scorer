@@ -1,5 +1,5 @@
 from collections import defaultdict
-import itertools
+import itertools, more_itertools
 
 
 def score(starter, hand):
@@ -21,7 +21,32 @@ def score(starter, hand):
     return running_score, running_msg
 
 
+def extract_numbers(card_tuples):
+    ranks = []
+    for card in card_tuples:
+        ranks.append(card[0])
+
+    return ranks
+
+
 def runs(starter, hand):
+    all_cards = hand + [starter]
+    print("Combined hand: " + str(all_cards))
+    card_nums = extract_numbers(all_cards)
+    card_nums.sort()
+
+    running_score = 0
+    running_msg = ""
+    for group in more_itertools.consecutive_groups(card_nums):
+        group_length = len(list(group))
+        if group_length >= 3:
+            running_score += group_length
+            running_msg += f"Run of length {group_length} ({group_length}pts)"
+
+    return running_score, running_msg
+
+
+def runs_reg(starter, hand):
     all_cards = hand + [starter]
     print("Combined hand: " + str(all_cards))
 
