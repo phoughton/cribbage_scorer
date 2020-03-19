@@ -26,6 +26,10 @@ def score(starter, hand, crib=False):
     running_score += flush_score
     running_msg = running_msg + flush_msg
 
+    his_nobs_score, his_nobs_msg = score_his_nobs(hand, starter)
+    running_score += his_nobs_score
+    running_msg = running_msg + his_nobs_msg
+
     return running_score, running_msg
 
 
@@ -92,6 +96,18 @@ def count_multiples(card_nums):
             multiples_list += group_list
 
     return multiples_list
+
+
+def score_his_nobs(hand, starter):
+    starter_suit = starter[1]
+    running_score = 0
+    running_message = ""
+    for card in hand:
+        if card == (11, starter_suit):
+            running_score += 1
+            running_message = "One for his nobs, "
+
+    return running_score, running_message
 
 
 def score_runs(card_nums):
