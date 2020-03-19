@@ -7,7 +7,7 @@ def score(starter, hand):
     running_msg = ""
 
     card_nums = card_numbers(starter, hand)
-    multiples_score, multiples_msg = multiples(card_nums)
+    multiples_score, multiples_msg = score_multiples(card_nums)
     running_score += multiples_score
     running_msg = running_msg + multiples_msg
 
@@ -37,12 +37,12 @@ def extract_numbers(card_tuples):
     return ranks
 
 
-def count_multiples(card_nums):
+def count_multiples(card_nums, run):
     multiples_list = []
     for key, group in itertools.groupby(card_nums):
-        group_length = len(list(group))
-        if group_length >= 3:
-            multiples_list.append(group)
+        group_list = list(group)
+        if len(group_list) > 1:
+            multiples_list += group_list
 
     return multiples_list
 
@@ -51,11 +51,17 @@ def runs(card_nums):
 
     running_score = 0
     running_msg = ""
-    for group in more_itertools.consecutive_groups(card_nums):
+    for group in more_itertools.consecutive_groups(list(set(card_nums))):
         group_length = len(list(group))
         if group_length >= 3:
-            running_score += group_length
-            running_msg += f"Run of length {group_length} ({group_length}pts)"
+            multiples = count_multiples(card_nums, group)
+            multiples_length = len(multiples)
+            if multiples_length > 0:
+                running_msg += f"Multi-run of length, ({group_length * len(multiples)}) "
+                running_score += (group_length * multiples_length)
+            else:
+                running_score += group_length
+                running_msg += f"Run of length {group_length} ({group_length}pts)"
 
     return running_score, running_msg
 
@@ -133,7 +139,7 @@ def fifteens(card_nums):
     return running_score, score_msg
 
 
-def multiples(card_nums):
+def score_multiples(card_nums):
 
     multiples_counter = defaultdict(lambda: 0)
     for card in card_nums:
