@@ -2,31 +2,48 @@ from collections import defaultdict
 import itertools, more_itertools
 
 
-def score(starter, hand):
+def score(starter, hand, crib=False):
     running_score = 0
     running_msg = ""
 
-    card_nums = card_numbers(starter, hand)
+    card_nums = get_card_numbers(starter, hand)
+    hand_suits = get_card_suits(hand)
+    starter_suit = get_card_suits([], starter)
+
     multiples_score, multiples_msg = score_multiples(card_nums)
     running_score += multiples_score
     running_msg = running_msg + multiples_msg
 
-    fifteens_score, fifteens_msg = fifteens(card_nums)
+    fifteens_score, fifteens_msg = score_fifteens(card_nums)
     running_score += fifteens_score
     running_msg = running_msg + fifteens_msg
 
-    runs_score, runs_msg = runs(card_nums)
+    runs_score, runs_msg = score_runs(card_nums)
     running_score += runs_score
     running_msg = running_msg + runs_msg
+
+    flush_score, flush_msg = score_flushes(hand_suits, starter_suit, crib)
+    running_score += flush_score
+    running_msg = running_msg + flush_msg
 
     return running_score, running_msg
 
 
-def card_numbers(starter, hand):
+def get_card_numbers(starter, hand):
     print("Combined hand: " + str(hand + [starter]))
     card_nums = extract_numbers(hand + [starter])
     card_nums.sort()
     return card_nums.copy()
+
+
+def get_card_suits(hand, starter=None):
+    print("suits: " + str(hand + [starter]))
+    if starter is None:
+        suits = extract_suits(hand)
+    else:
+        suits = extract_suits(hand + [starter])
+    suits.sort()
+    return suits.copy()
 
 
 def extract_numbers(card_tuples):
@@ -37,7 +54,37 @@ def extract_numbers(card_tuples):
     return ranks
 
 
-def count_multiples(card_nums, run):
+def extract_suits(card_tuples):
+    suits = []
+    for card in card_tuples:
+        suits.append(card[1])
+
+    return suits
+
+
+def score_flushes(hand_suits, starter, crib):
+    multiples_list = []
+    running_score = 0
+    running_msg = ""
+
+    for key, group in itertools.groupby(hand_suits):
+        group_list = list(group)
+        if len(group_list) == 4:
+            multiples_list += group_list
+
+    if len(multiples_list) == 4 and \
+            starter[0] == hand_suits[0] and \
+            not crib:
+        running_score += 5
+        running_msg = running_msg + "5 card flush. (as not a crib hand), "
+    elif len(multiples_list) == 4:
+        running_score += 4
+        running_msg = running_msg + "4 card flush, "
+
+    return running_score, running_msg
+
+
+def count_multiples(card_nums):
     multiples_list = []
     for key, group in itertools.groupby(card_nums):
         group_list = list(group)
@@ -47,48 +94,22 @@ def count_multiples(card_nums, run):
     return multiples_list
 
 
-def runs(card_nums):
+def score_runs(card_nums):
 
     running_score = 0
     running_msg = ""
     for group in more_itertools.consecutive_groups(list(set(card_nums))):
         group_length = len(list(group))
         if group_length >= 3:
-            multiples = count_multiples(card_nums, group)
-            multiples_length = len(multiples)
+            multiples_length = len(count_multiples(card_nums))
             if multiples_length > 0:
-                running_msg += f"Multi-run of length, ({group_length * len(multiples)}) "
+                running_msg += f"Multi-run of length, ({group_length * multiples_length}), "
                 running_score += (group_length * multiples_length)
             else:
                 running_score += group_length
-                running_msg += f"Run of length {group_length} ({group_length}pts)"
+                running_msg += f"Run of length {group_length} ({group_length}pts), "
 
     return running_score, running_msg
-
-
-# def runs_reg(starter, hand):
-#     all_cards = hand + [starter]
-#     print("Combined hand: " + str(all_cards))
-#
-#     running_msg = ""
-#     all_cards.sort()
-#     current_run_length = 0
-#     last_card = None
-#     for card in all_cards:
-#         if current_run_length == 0:
-#             current_run_length += 1
-#         else:
-#             if card[0] == last_card[0] + 1:
-#                 current_run_length += 1
-#             else:
-#                 current_run_length = 1
-#
-#         last_card = card
-#
-#     if current_run_length >= 3:
-#         return current_run_length, running_msg
-#     else:
-#         return 0, ""
 
 
 def face_valuer(raw_card_value):
@@ -98,7 +119,7 @@ def face_valuer(raw_card_value):
         return 10
 
 
-def fifteens(card_nums):
+def score_fifteens(card_nums):
 
     running_score = 0
     score_msg = ""
@@ -107,7 +128,7 @@ def fifteens(card_nums):
     for two_card_seq in combinations_2_cards:
         if face_valuer(two_card_seq[0]) + face_valuer(two_card_seq[1]) == 15:
             running_score += 2
-            score_msg = score_msg + f"15 from {two_card_seq}"
+            score_msg = score_msg + f"15 from {two_card_seq}, "
 
     combinations_3_cards = itertools.combinations(card_nums, 3)
     for three_card_seq in combinations_3_cards:
@@ -115,7 +136,7 @@ def fifteens(card_nums):
                 face_valuer(three_card_seq[1]) + \
                 face_valuer(three_card_seq[2]) == 15:
             running_score += 2
-            score_msg = score_msg + f"15 from {three_card_seq}"
+            score_msg = score_msg + f"15 from {three_card_seq}, "
 
     combinations_4_cards = itertools.combinations(card_nums, 4)
     for four_card_seq in combinations_4_cards:
@@ -124,7 +145,7 @@ def fifteens(card_nums):
                 face_valuer(four_card_seq[2]) + \
                 face_valuer(four_card_seq[3]) == 15:
             running_score += 2
-            score_msg = score_msg + f"15 from {four_card_seq}"
+            score_msg = score_msg + f"15 from {four_card_seq}, "
 
     combinations_5_cards = itertools.combinations(card_nums, 5)
     for five_card_seq in combinations_5_cards:
@@ -134,7 +155,7 @@ def fifteens(card_nums):
                 face_valuer(five_card_seq[3]) + \
                 face_valuer(five_card_seq[4]) == 15:
             running_score += 2
-            score_msg = score_msg + f"15 from {five_card_seq}"
+            score_msg = score_msg + f"15 from {five_card_seq}, "
 
     return running_score, score_msg
 

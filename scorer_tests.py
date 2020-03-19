@@ -61,6 +61,21 @@ def test_multi_runs(starter, hand, expected_score, description):
         f"The starter card was: {starter} and hand was: {hand}" + \
         f"The hand description was: {description}"
 
+
+@pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
+    ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], False, 5, "5 card flush"),
+    ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], True, 4,  "4 card flush (not 5 as crib)"),
+    ((8, "D"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], False, 4, "4 card flush"),
+    ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "H")], False, 0, "Not a flush."),
+    ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], False, 0, "Not a flush.")
+])
+def test_flushes(starter, hand, crib, expected_score, description):
+    calculated_score = cribbage_scorer.score(starter, hand, crib)
+    assert calculated_score[0] == expected_score, \
+        f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
+        f"The starter card was: {starter} and hand was: {hand}" + \
+        f"The hand description was: {description}"
+
 # ((11,"S"), [(12,"D"),(13,"S"), (1,"C"), (9,"H")], 3, "simple, 3 card run"),
 # ((5,"H"), [(5,"S"),(4,"S"), (2,"S"), (6,"H")], 12, "mixed, 15s, double run"),
 # ((5,"H"), [(6,"D"),(11,"H"), (4,"H"), (7,"C")], 9, "mixed, 15s, run, nob"),
