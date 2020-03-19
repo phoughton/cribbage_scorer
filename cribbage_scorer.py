@@ -184,6 +184,6 @@ def score_multiples(card_nums):
             score_total += 12
             score_msg = score_msg + f"12 points for quadruple {card}s, "
         else:
-            raise Exception(f"An illegal multiple  of {count} was found in hand: {hand}")
+            raise Exception(f"An illegal multiple  of {count} was found in hand: {card_nums}")
 
     return score_total, score_msg
