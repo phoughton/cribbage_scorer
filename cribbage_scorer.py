@@ -2,68 +2,37 @@ from collections import defaultdict
 import itertools, more_itertools
 
 
-def score(starter, hand, crib=False):
-    running_score = 0
-    running_msg = ""
+def calc_score(starter, hand, crib=False):
+
+    scores = []
 
     card_nums = get_card_numbers(starter, hand)
     hand_suits = get_card_suits(hand)
     starter_suit = get_card_suits([], starter)
 
-    multiples_score, multiples_msg = score_multiples(card_nums)
-    running_score += multiples_score
-    running_msg = running_msg + multiples_msg
+    scores.append(score_multiples(card_nums))
+    scores.append(score_fifteens(card_nums))
+    scores.append(score_runs(card_nums))
+    scores.append(score_flushes(hand_suits, starter_suit, crib))
+    scores.append(score_his_nobs(hand, starter))
 
-    fifteens_score, fifteens_msg = score_fifteens(card_nums)
-    running_score += fifteens_score
-    running_msg = running_msg + fifteens_msg
-
-    runs_score, runs_msg = score_runs(card_nums)
-    running_score += runs_score
-    running_msg = running_msg + runs_msg
-
-    flush_score, flush_msg = score_flushes(hand_suits, starter_suit, crib)
-    running_score += flush_score
-    running_msg = running_msg + flush_msg
-
-    his_nobs_score, his_nobs_msg = score_his_nobs(hand, starter)
-    running_score += his_nobs_score
-    running_msg = running_msg + his_nobs_msg
-
-    return running_score, running_msg
+    return sum([score[0] for score in scores]), ','.join([score_msg[1] for score_msg in scores])
 
 
 def get_card_numbers(starter, hand):
-    print("Combined hand: " + str(hand + [starter]))
-    card_nums = extract_numbers(hand + [starter])
+    all_cards = hand + [starter]
+    card_nums = [card[0] for card in all_cards]
     card_nums.sort()
     return card_nums.copy()
 
 
 def get_card_suits(hand, starter=None):
-    print("suits: " + str(hand + [starter]))
     if starter is None:
-        suits = extract_suits(hand)
+        suits = [card[1] for card in hand]
     else:
-        suits = extract_suits(hand + [starter])
+        suits = [card[1] for card in hand + [starter]]
     suits.sort()
     return suits.copy()
-
-
-def extract_numbers(card_tuples):
-    ranks = []
-    for card in card_tuples:
-        ranks.append(card[0])
-
-    return ranks
-
-
-def extract_suits(card_tuples):
-    suits = []
-    for card in card_tuples:
-        suits.append(card[1])
-
-    return suits
 
 
 def score_flushes(hand_suits, starter, crib):
@@ -192,13 +161,13 @@ def score_multiples(card_nums):
     for card, count in multiples_found.items():
         if count == 2:
             score_total += 2
-            score_msg = score_msg + f"2 points for double {card}s, "
+            score_msg = score_msg + f"2 points for double {card}s "
         elif count == 3:
             score_total += 6
-            score_msg = score_msg + f"6 points for triple {card}s, "
+            score_msg = score_msg + f"6 points for triple {card}s "
         elif count == 4:
             score_total += 12
-            score_msg = score_msg + f"12 points for quadruple {card}s, "
+            score_msg = score_msg + f"12 points for quadruple {card}s "
         else:
             raise Exception(f"An illegal multiple  of {count} was found in hand: {card_nums}")
 

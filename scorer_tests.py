@@ -10,7 +10,7 @@ import cribbage_scorer
     ])
 def test_multiples(starter, hand, expected_score, description):
 
-    calculated_score = cribbage_scorer.score(starter, hand)
+    calculated_score = cribbage_scorer.calc_score(starter, hand)
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}" + \
@@ -26,7 +26,7 @@ def test_multiples(starter, hand, expected_score, description):
 ])
 def test_fifteens(starter, hand, expected_score, description):
 
-    calculated_score = cribbage_scorer.score(starter, hand)
+    calculated_score = cribbage_scorer.calc_score(starter, hand)
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}" + \
@@ -41,7 +41,7 @@ def test_fifteens(starter, hand, expected_score, description):
 ])
 def test_runs(starter, hand, expected_score, description):
 
-    calculated_score = cribbage_scorer.score(starter, hand)
+    calculated_score = cribbage_scorer.calc_score(starter, hand)
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
@@ -55,7 +55,7 @@ def test_runs(starter, hand, expected_score, description):
     ((1, "S"), [(2, "D"), (2, "S"), (3, "C"), (4, "H")], 10, "double run of 4")
 ])
 def test_multi_runs(starter, hand, expected_score, description):
-    calculated_score = cribbage_scorer.score(starter, hand)
+    calculated_score = cribbage_scorer.calc_score(starter, hand)
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
@@ -70,7 +70,7 @@ def test_multi_runs(starter, hand, expected_score, description):
     ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], False, 0, "Not a flush.")
 ])
 def test_flushes(starter, hand, crib, expected_score, description):
-    calculated_score = cribbage_scorer.score(starter, hand, crib)
+    calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
@@ -82,7 +82,7 @@ def test_flushes(starter, hand, crib, expected_score, description):
     ((8, "H"), [(10, "D"), (13, "S"), (1, "C"), (11, "H")], False, 1, "1 for his nobs.")
 ])
 def test_his_nobs(starter, hand, crib, expected_score, description):
-    calculated_score = cribbage_scorer.score(starter, hand, crib)
+    calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
