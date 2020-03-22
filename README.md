@@ -6,4 +6,4 @@ It handles Dealer and non dealer hands, for the standard four card + starter/cut
 
 For details and history of the game [Wikipedia has a good summary](https://en.wikipedia.org/wiki/Cribbage)
 
-For details of playing rules the [American Cribbage Congress has the etails](http://www.cribbage.org/NewSite/rules/rule1.asp#section7)
+For details of playing rules the [American Cribbage Congress has the details](http://www.cribbage.org/NewSite/rules/rule1.asp#section7)
