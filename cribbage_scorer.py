@@ -87,7 +87,7 @@ def score_runs(card_nums):
         if group_length >= 3:
             multiples_length = len(count_multiples(card_nums))
             if multiples_length > 0:
-                running_msg.append(f"Multi-run: {list(card_nums)} ({group_length * multiples_length}pts)")
+                running_msg.append(f"Multi-run: {card_nameify(card_nums)} ({group_length * multiples_length}pts)")
                 running_score.append((group_length * multiples_length))
             else:
                 running_score.append(group_length)
@@ -164,13 +164,13 @@ def score_multiples(card_nums):
     for card, count in multiples_found.items():
         if count == 2:
             score_total.append(2)
-            score_msgs.append(f"Double {card}s (2pts)")
+            score_msgs.append(f"Double {card_nameify([card])[0]}s (2pts)")
         elif count == 3:
             score_total.append(6)
-            score_msgs.append(f"Three of a kind: {card}s (6pts)")
+            score_msgs.append(f"Three of a kind: {card_nameify([card])[0]}s (6pts)")
         elif count == 4:
             score_total.append(12)
-            score_msgs.append(f"Four of a kind: {card}s (12pts)")
+            score_msgs.append(f"Four of a kind: {card_nameify([card])[0]}s (12pts)")
         else:
             raise Exception(f"An illegal multiple  of {count} was found in hand: {card_nums}")
 

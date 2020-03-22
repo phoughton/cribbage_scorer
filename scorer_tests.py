@@ -36,10 +36,10 @@ def test_fifteens(starter, hand, expected_score, description):
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
-        ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], 0, "simple, run of 0"),
-        ((11, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], 3, "simple, run of 3"),
-        ((10, "S"), [(11, "D"), (12, "S"), (13, "C"), (1, "H")], 4, "simple, run of 4"),
-        ((9, "D"), [(10, "D"), (11, "S"), (12, "C"), (13, "H")], 5, "simple, run of 5")
+        ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], 0, ""),
+        ((11, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], 3, "Run of 3 cards (3pts)"),
+        ((10, "S"), [(11, "D"), (12, "S"), (13, "C"), (1, "H")], 4, "Run of 4 cards (4pts)"),
+        ((9, "D"), [(10, "D"), (11, "S"), (12, "C"), (13, "H")], 5, "Run of 5 cards (5pts)")
 ])
 def test_runs(starter, hand, expected_score, description):
 
@@ -49,6 +49,7 @@ def test_runs(starter, hand, expected_score, description):
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
         f"The hand description was: {description} "
+    assert calculated_score[1] == description
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
@@ -83,8 +84,8 @@ def test_flushes(starter, hand, crib, expected_score, description):
 
 
 @pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
-    ((8, "D"), [(10, "D"), (13, "S"), (1, "C"), (11, "H")], False, 0, "Not his nobs."),
-    ((8, "H"), [(10, "D"), (13, "S"), (1, "C"), (11, "H")], False, 1, "1 for his nobs.")
+    ((8, "D"), [(10, "D"), (13, "S"), (1, "C"), (11, "H")], False, 0, ""),
+    ((8, "H"), [(10, "D"), (13, "S"), (1, "C"), (11, "H")], False, 1, "One for his nobs (1pt)")
 ])
 def test_his_nobs(starter, hand, crib, expected_score, description):
     calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
@@ -93,6 +94,7 @@ def test_his_nobs(starter, hand, crib, expected_score, description):
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
         f"The hand description was: {description} "
+    assert calculated_score[1] == description
 
 
 @pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
