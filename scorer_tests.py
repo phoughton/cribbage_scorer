@@ -98,10 +98,40 @@ def test_his_nobs(starter, hand, crib, expected_score, description):
     assert calculated_score[1] == description
 
 
-@pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
-    ((5, "D"), [(5, "D"), (5, "S"), (5, "C"), (11, "D")], False, 29, "Perfect hand")
+@pytest.mark.parametrize("starter, hand, expected_score, description", [
+    ((5, "D"), [(5, "D"), (5, "S"), (5, "C"), (11, "D")], 29, "Perfect hand, 29"),
+    ((10, "H"), [(5, "D"), (5, "S"), (5, "C"), (5, "H")], 28, "2nd best hand, 28"),
+    ((9, "D"), [(3, "D"), (3, "S"), (3, "C"), (3, "H")], 24, "1. 3rd best hand, 24"),
+    ((6, "H"), [(6, "S"), (5, "D"), (5, "C"), (4, "H")], 24, "2. 3rd best hand, 24"),
+    ((5, "H"), [(11, "H"), (11, "D"), (5, "C"), (5, "S")], 23, "4th best hand, 23"),
+    ((10, "S"), [(10, "C"), (5, "D"), (5, "C"), (5, "H")], 22, "5th best hand, 22"),
+    ((9, "S"), [(2, "C"), (2, "D"), (2, "H"), (2, "S")], 20, "1. 6th best hand, 20"),
+    ((1, "C"), [(5, "C"), (5, "D"), (5, "H"), (5, "S")], 20, "2. 6th best hand, 20"),
+    ((6, "C"), [(9, "C"), (9, "D"), (9, "H"), (9, "S")], 20, "3. 6th best hand, 20"),
+    ((13, "C"), [(12, "S"), (5, "D"), (5, "H"), (5, "S")], 20, "4. 6th best hand, 20"),
+    ((5, "D"), [(4, "H"), (4, "S"), (3, "H"), (3, "C")], 20, "5. 6th best hand, 20"),
+    ((10, "S"), [(1, "D"), (1, "H"), (1, "S"), (1, "C")], 12, "1. 12, from aces"),
+    ((5, "S"), [(1, "D"), (1, "H"), (1, "S"), (1, "C")], 12, "2. 12, from aces"),
+    ((13, "H"), [(5, "H"), (10, "H"), (11, "H"), (12, "H")], 18, "18, highest with 5pt flush")
 ])
-def test_etc_hands(starter, hand, crib, expected_score, description):
+def test_etc_hands__crib_neutral(starter, hand, expected_score, description):
+    for crib in [False, True]:
+        calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
+        print(calculated_score[1])
+        assert calculated_score[0] == expected_score, \
+            f"The calc score was: {calculated_score}, the expected score: {expected_score}. " + \
+            f"The starter card was: {starter} and hand was: {hand}, " + \
+            f"The hand description was: {description}. " + \
+            f"Crib card status: {crib}"
+
+
+@pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
+    ((6, "D"), [(6, "S"), (5, "S"), (4, "S"), (3, "S")], False, 20, "6. 6th best hand"),
+    ((7, "S"), [(8, "D"), (7, "D"), (6, "D"), (1, "D")], False, 20, "7. 6th best hand"),
+    ((6, "D"), [(6, "S"), (5, "S"), (4, "S"), (3, "S")], True, 16, "6. 6th best hand, but crib"),
+    ((7, "S"), [(8, "D"), (7, "D"), (6, "D"), (1, "D")], True, 16, "7. 6th best hand, but crib"),
+])
+def test_etc_hands__crib_affected(starter, hand, crib, expected_score, description):
     calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \

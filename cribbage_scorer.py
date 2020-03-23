@@ -76,8 +76,10 @@ def score_runs(card_nums):
 
     running_score = []
     running_msg = []
-    for group in more_itertools.consecutive_groups(list(set(card_nums))):
-        group_length = len(list(group))
+    card_set = sorted(set(card_nums))
+    for group in more_itertools.consecutive_groups(list(card_set)):
+        group_list = list(group)
+        group_length = len(group_list)
         if group_length >= 3:
             multiples_length = len(count_multiples(card_nums))
             if multiples_length > 0:
