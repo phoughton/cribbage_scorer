@@ -13,7 +13,7 @@ def calc_score(starter, hand, crib=False):
     starter_suit = get_card_suits([], starter)
 
     scores.append(score_multiples(card_nums))
-    scores.append(score_fifteens(card_nums))
+    scores.append(score_fifteens(hand, starter))
     scores.append(score_runs(card_nums))
     scores.append(score_flushes(hand_suits, starter_suit, crib))
     scores.append(score_his_nobs(hand, starter))
@@ -107,41 +107,43 @@ def card_nameify(card_nums):
     return list(map(lambda x: card_names[x] if x in card_names else x, card_nums))
 
 
-def score_fifteens(card_nums):
+def score_fifteens(hand, starter):
+
+    all_cards = hand + [starter]
 
     running_score = []
     score_msgs = []
 
-    combinations_2_cards = itertools.combinations(card_nums, 2)
+    combinations_2_cards = itertools.combinations(all_cards, 2)
     for two_card_seq in combinations_2_cards:
-        if face_valuer(two_card_seq[0]) + face_valuer(two_card_seq[1]) == 15:
+        if face_valuer(two_card_seq[0][0]) + face_valuer(two_card_seq[1][0]) == 15:
             running_score.append(2)
             score_msgs.append(f"Made 15 from {card_nameify(two_card_seq) } (2pts)")
 
-    combinations_3_cards = itertools.combinations(card_nums, 3)
+    combinations_3_cards = itertools.combinations(all_cards, 3)
     for three_card_seq in combinations_3_cards:
-        if face_valuer(three_card_seq[0]) + \
-                face_valuer(three_card_seq[1]) + \
-                face_valuer(three_card_seq[2]) == 15:
+        if face_valuer(three_card_seq[0][0]) + \
+                face_valuer(three_card_seq[1][0]) + \
+                face_valuer(three_card_seq[2][0]) == 15:
             running_score.append(2)
             score_msgs.append(f"Made 15 from {card_nameify(three_card_seq)} (2pts)")
 
-    combinations_4_cards = itertools.combinations(card_nums, 4)
+    combinations_4_cards = itertools.combinations(all_cards, 4)
     for four_card_seq in combinations_4_cards:
-        if face_valuer(four_card_seq[0]) + \
-                face_valuer(four_card_seq[1]) + \
-                face_valuer(four_card_seq[2]) + \
-                face_valuer(four_card_seq[3]) == 15:
+        if face_valuer(four_card_seq[0][0]) + \
+                face_valuer(four_card_seq[1][0]) + \
+                face_valuer(four_card_seq[2][0]) + \
+                face_valuer(four_card_seq[3][0]) == 15:
             running_score.append(2)
             score_msgs.append(f"Made 15 from {card_nameify(four_card_seq)} (2pts)")
 
-    combinations_5_cards = itertools.combinations(card_nums, 5)
+    combinations_5_cards = itertools.combinations(all_cards, 5)
     for five_card_seq in combinations_5_cards:
-        if face_valuer(five_card_seq[0]) + \
-                face_valuer(five_card_seq[1]) + \
-                face_valuer(five_card_seq[2]) + \
-                face_valuer(five_card_seq[3]) + \
-                face_valuer(five_card_seq[4]) == 15:
+        if face_valuer(five_card_seq[0][0]) + \
+                face_valuer(five_card_seq[1][0]) + \
+                face_valuer(five_card_seq[2][0]) + \
+                face_valuer(five_card_seq[3][0]) + \
+                face_valuer(five_card_seq[4][0]) == 15:
             running_score.append(2)
             score_msgs.append(f"Made 15 from {card_nameify(five_card_seq)} (2pts)")
 
