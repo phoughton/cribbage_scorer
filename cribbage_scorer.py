@@ -43,12 +43,10 @@ def score_flushes(hand_suits, starter, crib):
 
     multiples_list = count_multiples(hand_suits)
 
-    if len(multiples_list) == 4 and \
-            starter[0] == hand_suits[0] and \
-            not crib:
+    if len(multiples_list) == 4 and starter[0] == hand_suits[0]:
         running_score.append(5)
-        running_msg .append("Five card flush. (Not a crib) (5pts)")
-    elif len(multiples_list) == 4:
+        running_msg.append("Five card flush. (5pts)")
+    elif len(multiples_list) == 4 and not crib:
         running_score.append(4)
         running_msg.append("Four card flush (4pts)")
 

@@ -69,7 +69,8 @@ def test_multi_runs(starter, hand, expected_score, description):
 
 @pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
     ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], False, 5, "5 card flush"),
-    ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], True, 4,  "4 card flush (not 5 as crib)"),
+    ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], True, 5,  "5 card flush (crib)"),
+    ((8, "D"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], True, 0, "Not a flush, as it is a crib"),
     ((8, "D"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], False, 4, "4 card flush"),
     ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "H")], False, 0, "Not a flush."),
     ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], False, 0, "Not a flush.")
