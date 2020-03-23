@@ -38,14 +38,10 @@ def get_card_suits(hand, starter=None):
 
 
 def score_flushes(hand_suits, starter, crib):
-    multiples_list = []
     running_score = []
     running_msg = []
 
-    for key, group in itertools.groupby(hand_suits):
-        group_list = list(group)
-        if len(group_list) == 4:
-            multiples_list += group_list
+    multiples_list = count_multiples(hand_suits)
 
     if len(multiples_list) == 4 and \
             starter[0] == hand_suits[0] and \
@@ -59,9 +55,9 @@ def score_flushes(hand_suits, starter, crib):
     return sum(running_score), ', '.join(running_msg)
 
 
-def count_multiples(card_nums):
+def count_multiples(card_suit_or_rank):
     multiples_list = []
-    for key, group in itertools.groupby(card_nums):
+    for key, group in itertools.groupby(card_suit_or_rank):
         group_list = list(group)
         if len(group_list) > 1:
             multiples_list += group_list
