@@ -16,7 +16,7 @@ starter = (5, "D")
 hand = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
 crib = False
 
-calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
+calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
 print(calculated_score)
 ```
 Results:

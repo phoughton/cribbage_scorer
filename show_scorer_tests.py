@@ -10,7 +10,7 @@ import cribbage_scorer
     ])
 def test_multiples(starter, hand, expected_score, description):
 
-    calculated_score = cribbage_scorer.calc_score(starter, hand)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -27,7 +27,7 @@ def test_multiples(starter, hand, expected_score, description):
 ])
 def test_fifteens(starter, hand, expected_score, description):
 
-    calculated_score = cribbage_scorer.calc_score(starter, hand)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -43,7 +43,7 @@ def test_fifteens(starter, hand, expected_score, description):
 ])
 def test_runs(starter, hand, expected_score, description):
 
-    calculated_score = cribbage_scorer.calc_score(starter, hand)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -59,7 +59,7 @@ def test_runs(starter, hand, expected_score, description):
     ((1, "S"), [(2, "D"), (2, "S"), (3, "C"), (4, "H")], 10, "double run of 4")
 ])
 def test_multi_runs(starter, hand, expected_score, description):
-    calculated_score = cribbage_scorer.calc_score(starter, hand)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -76,7 +76,7 @@ def test_multi_runs(starter, hand, expected_score, description):
     ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], False, 0, "Not a flush.")
 ])
 def test_flushes(starter, hand, crib, expected_score, description):
-    calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -89,7 +89,7 @@ def test_flushes(starter, hand, crib, expected_score, description):
     ((8, "H"), [(10, "D"), (13, "S"), (1, "C"), (11, "H")], False, 1, "One for his nobs (1pt)")
 ])
 def test_his_nobs(starter, hand, crib, expected_score, description):
-    calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -116,7 +116,7 @@ def test_his_nobs(starter, hand, crib, expected_score, description):
 ])
 def test_etc_hands__crib_neutral(starter, hand, expected_score, description):
     for crib in [False, True]:
-        calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
+        calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
         print(calculated_score[1])
         assert calculated_score[0] == expected_score, \
             f"The calc score was: {calculated_score}, the expected score: {expected_score}. " + \
@@ -132,7 +132,7 @@ def test_etc_hands__crib_neutral(starter, hand, expected_score, description):
     ((7, "S"), [(8, "D"), (7, "D"), (6, "D"), (1, "D")], True, 16, "7. 6th best hand, but crib"),
 ])
 def test_etc_hands__crib_affected(starter, hand, crib, expected_score, description):
-    calculated_score = cribbage_scorer.calc_score(starter, hand, crib)
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
     print(calculated_score[1])
     assert calculated_score[0] == expected_score, \
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
