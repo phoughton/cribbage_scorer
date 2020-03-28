@@ -1,7 +1,35 @@
 from collections import defaultdict
 import itertools, more_itertools
 
-card_names = {1: "Ace", 2: 2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10, 11: "Jack", 12: "Queen", 13: "King"}
+card_names = {1: "Ace", 2: 2, 3:3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
+
+
+def play_calc_score(played_cards, players):
+
+    return play_score_to_end(played_cards, players)
+
+
+def play_score_to_end(played_cards, players):
+    return play_score_15(played_cards, players)
+
+
+def play_score_15(played_cards, players):
+    count = sum(list(map(lambda x: x[0], played_cards)))
+
+    if count == 15 or count == 31:
+        score = 2
+        msg = f"{count} for 2pts"
+    else:
+        score = 0
+        msg = ""
+
+    return count, score, msg
+
+
+def last_player(played_cards, players):
+    if len(played_cards) == 0:
+        return None
+    return players[(len(played_cards) - 1) % len(players)]
 
 
 def show_calc_score(starter, hand, crib=False):
