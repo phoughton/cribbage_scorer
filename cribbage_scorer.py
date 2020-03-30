@@ -4,17 +4,19 @@ import itertools, more_itertools
 card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
 
 
-def play_calc_score_whole_game(played_cards, players):
+def play_calc_score_whole_game(played_cards, players, last_card=False):
     pass
 
 
 def play_score_just_made(played_cards, players, last_card=False):
     scores = []
     count = count_cards(played_cards)
+    card_nums = get_card_numbers(played_cards)
+
     scores.append(play_score_15(count))
     scores.append(play_score_last_card(count, last_card))
-    scores.append(play_score_runs(played_cards))
-
+    scores.append(play_score_runs(card_nums))
+    scores.append(play_score_multiples(card_nums))
     return count, \
         sum([score[0] for score in scores]), \
         ', '.join([score_msg[1] for score_msg in scores if score_msg != (0, "")]), \
@@ -42,13 +44,26 @@ def play_score_15(count):
     return score, msg
 
 
-def play_score_runs(played_cards):
-    card_nums = get_card_numbers(played_cards)
+def play_score_runs(card_nums):
     for run_length in range(13, 2, -1):
         if len(card_nums) >= run_length:
             if are_consecutive(card_nums[-run_length: len(card_nums)]):
                 return run_length, f"Run of {run_length}, ({run_length}pts)"
     return 0, ""
+
+
+def play_score_multiples(card_nums):
+    for run_length in range(4, 1, -1):
+        if len(card_nums) >= 4:
+            if card_nums[-1] == card_nums[-2] == card_nums[-3] == card_nums[-4]:
+                return 12, "4 of a kind (12pts)"
+        if len(card_nums) >= 3:
+            if card_nums[-1] == card_nums[-2] == card_nums[-3]:
+                return 6, "3 of a kind (6pts)"
+        if len(card_nums) >= 2:
+            if card_nums[-1] == card_nums[-2]:
+                return 2, "2 of a kind (2pts)"
+        return 0, ""
 
 
 def are_consecutive(unordered_cards):

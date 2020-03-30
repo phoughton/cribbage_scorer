@@ -56,11 +56,28 @@ def test_last_player(played_cards, players, expected_last_player):
     ([(1, "S"), (3, "H"), (2, "S")], ["Abi", "Bob"], 6, 3, "Run of 3, out of order"),
     ([(5, "D"), (3, "S"), (1, "H"), (2, "S")], ["Abi", "Bob"], 11, 3, "Run of 3, out of order"),
     ([(4, "D"), (3, "S"), (1, "H"), (2, "S")], ["Abi", "Bob"], 10, 4, "Run of 4, out of order"),
-    ([(5, "D"), (4, "D"), (3, "S"), (2, "H"), (2, "S")], ["Abi", "Bob"], 16, 0, "Double Run of 4, should not sore"),
+    ([(5, "D"), (4, "D"), (2, "S"), (3, "H"), (2, "S")], ["Abi", "Bob"], 16, 0, "Double Run of 4, should not sore"),
     ([(1, "H"), (2, "S")], ["Abi", "Bob"], 3, 0, "run of 2"),
     ([(2, "S"), (3, "H"), (4, "S"), (5, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 27, 6, "run of 6")
 ])
 def test_runs(hand, players, expected_count, expected_score, description):
+
+    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
+    print(calc_count, calc_score, calc_desc)
+    assert calc_score == expected_score, \
+        f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
+        f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
+        f"The hand description was: {description} "
+
+
+@pytest.mark.parametrize("hand, players, expected_count, expected_score, description", [
+    ([(1, "S"), (3, "H"), (3, "S")], ["Abi", "Bob"], 7, 2, "Double"),
+    ([(3, "S"), (3, "H"), (3, "S")], ["Abi", "Bob"], 9, 6, "Triple"),
+    ([(3, "D"), (3, "H"), (3, "S"), (3, "C")], ["Abi", "Bob"], 12, 12, "Quadruple"),
+    ([(1, "H"), (2, "S")], ["Abi", "Bob"], 3, 0, "Not a double"),
+    ([(2, "S"), (3, "H"), (4, "S"), (4, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 26, 0, "Historic double doesnt count")
+])
+def test_multiples(hand, players, expected_count, expected_score, description):
 
     calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
     print(calc_count, calc_score, calc_desc)
