@@ -1,29 +1,64 @@
 from collections import defaultdict
 import itertools, more_itertools
 
-card_names = {1: "Ace", 2: 2, 3:3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
+card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
 
 
-def play_calc_score(played_cards, players):
-
-    return play_score_to_end(played_cards, players)
-
-
-def play_score_to_end(played_cards, players):
-    return play_score_15(played_cards, players)
+def play_calc_score_whole_game(played_cards, players):
+    pass
 
 
-def play_score_15(played_cards, players):
-    count = sum(list(map(lambda x: x[0], played_cards)))
+def play_score_just_made(played_cards, players, last_card=False):
+    scores = []
+    count = count_cards(played_cards)
+    scores.append(play_score_15(count))
+    scores.append(play_score_last_card(count, last_card))
+    scores.append(play_score_runs(played_cards))
 
-    if count == 15 or count == 31:
+    return count, \
+        sum([score[0] for score in scores]), \
+        ', '.join([score_msg[1] for score_msg in scores if score_msg != (0, "")]), \
+        last_player(played_cards, players)
+
+
+def play_score_last_card(count, last_card):
+    if count == 31:
+        return 2, "31 (2pts)"
+    elif last_card:
+        return 1, "Last card (1pt)"
+    else:
+        return 0, ""
+
+
+def play_score_15(count):
+
+    if count == 15:
         score = 2
         msg = f"{count} for 2pts"
     else:
         score = 0
         msg = ""
 
-    return count, score, msg
+    return score, msg
+
+
+def play_score_runs(played_cards):
+    card_nums = get_card_numbers(played_cards)
+    for run_length in range(13, 2, -1):
+        if len(card_nums) >= run_length:
+            if are_consecutive(card_nums[-run_length: len(card_nums)]):
+                return run_length, f"Run of {run_length}, ({run_length}pts)"
+    return 0, ""
+
+
+def are_consecutive(unordered_cards):
+    return sorted(unordered_cards) == list(range(min(unordered_cards), max(unordered_cards) + 1))
+
+
+def count_cards(played_cards):
+    card_nums = list(map(lambda x: x[0], played_cards))
+    face_values = list(map(face_valuer, card_nums))
+    return sum(face_values)
 
 
 def last_player(played_cards, players):
@@ -33,10 +68,9 @@ def last_player(played_cards, players):
 
 
 def show_calc_score(starter, hand, crib=False):
-
     scores = []
 
-    card_nums = get_card_numbers(starter, hand)
+    card_nums = sorted(get_card_numbers(hand, starter))
     hand_suits = get_card_suits(hand)
     starter_suit = get_card_suits([], starter)
 
@@ -46,13 +80,16 @@ def show_calc_score(starter, hand, crib=False):
     scores.append(score_flushes(hand_suits, starter_suit, crib))
     scores.append(score_his_nobs(hand, starter))
 
-    return sum([score[0] for score in scores]), ', '.join([score_msg[1] for score_msg in scores if score_msg != (0, "")])
+    return sum([score[0] for score in scores]), ', '.join(
+        [score_msg[1] for score_msg in scores if score_msg != (0, "")])
 
 
-def get_card_numbers(starter, hand):
-    all_cards = hand + [starter]
+def get_card_numbers(cards, starter=None):
+    if starter is not None:
+        all_cards = cards + [starter]
+    else:
+        all_cards = cards
     card_nums = [card[0] for card in all_cards]
-    card_nums.sort()
     return card_nums.copy()
 
 
@@ -101,7 +138,6 @@ def score_his_nobs(hand, starter):
 
 
 def score_runs(card_nums):
-
     running_score = []
     running_msg = []
     card_set = sorted(set(card_nums))
@@ -132,7 +168,6 @@ def card_nameify(card_nums):
 
 
 def score_fifteens(hand, starter):
-
     all_cards = hand + [starter]
 
     running_score = []
@@ -142,7 +177,7 @@ def score_fifteens(hand, starter):
     for two_card_seq in combinations_2_cards:
         if face_valuer(two_card_seq[0][0]) + face_valuer(two_card_seq[1][0]) == 15:
             running_score.append(2)
-            score_msgs.append(f"Made 15 from {card_nameify(two_card_seq) } (2pts)")
+            score_msgs.append(f"Made 15 from {card_nameify(two_card_seq)} (2pts)")
 
     combinations_3_cards = itertools.combinations(all_cards, 3)
     for three_card_seq in combinations_3_cards:
@@ -175,7 +210,6 @@ def score_fifteens(hand, starter):
 
 
 def score_multiples(card_nums):
-
     multiples_counter = defaultdict(lambda: 0)
     for card in card_nums:
         multiples_counter[card] += 1

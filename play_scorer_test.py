@@ -1,0 +1,70 @@
+import pytest
+import cribbage_scorer
+
+
+@pytest.mark.parametrize("hand, players, expected_count, expected_score, description", [
+        ([(1, "S"), (2, "S")], ["Abi", "Bob"], 3, 0, "Simple ace and 2."),
+        ([(4, "S")], ["Abi", "Bob"], 4, 0, "simple 1 card, 4"),
+        ([(1, "H"), (10, "S")], ["Abi", "Bob"], 11, 0, "Simple ace and 10."),
+        ([(5, "H"), (10, "S")], ["Abi", "Bob"], 15, 2, "fifteen for 2")
+])
+def test_simple_hands1(hand, players, expected_count, expected_score, description):
+
+    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
+    print(calc_count, calc_score, calc_desc)
+    assert calc_score == expected_score, \
+        f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
+        f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
+        f"The hand description was: {description} "
+
+
+@pytest.mark.parametrize("hand, players, last_card, expected_count, expected_score, description", [
+        ([(13, "S"), (12, "H"), (10, "S")], ["Abi", "Bob"], True, 30, 1, "Last card at 30"),
+        ([(13, "S"), (12, "H"), (9, "S")], ["Abi", "Bob"], True, 30, 1, "Last card at 29"),
+        ([(13, "S"), (12, "H"), (9, "S")], ["Abi", "Bob"], False, 30, 0, "Not last card at 29"),
+        ([(13, "S"), (12, "H"), (10, "S"), (1, "D")], ["Abi", "Bob"], True, 31, 2, "Last card at 31")
+])
+def test_last_card(hand, players, last_card, expected_count, expected_score, description):
+
+    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players, last_card)
+    print(calc_count, calc_score, calc_desc)
+    assert calc_score == expected_score, \
+        f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
+        f"The calculated count was: {calc_count} and the expected : {expected_count}. " + \
+        f"The hand description was: {description}"
+
+
+@pytest.mark.parametrize("played_cards, players, expected_last_player", [
+        ([], ["Abi", "Bob"], None),
+        ([(1, "S"), (2, "S")], ["Abi", "Bob"], "Bob"),
+        ([(4, "S")], ["Abi", "Bob"], "Abi"),
+        ([(1, "H"), (10, "S")], ["Abi", "Bob"], "Bob"),
+        ([(1, "H"), (10, "S"), (10, "D")], ["Abi", "Bob"], "Abi"),
+        ([(5, "H"), (10, "S"), (5, "H")], ["Abi", "Bob"], "Abi"),
+        ([(1, "H"), (10, "S")], ["Abi", "Bob", "Charles"], "Bob"),
+        ([(5, "H"), (10, "S"), (5, "H")], ["Abi", "Bob", "Charles", "David"], "Charles"),
+        ([(5, "H"), (5, "S"), (5, "H"), (5, "C"), (1, "S"), (1, "H")], ["Abi", "Bob", "Charles", "David"], "Bob")
+])
+def test_last_player(played_cards, players, expected_last_player):
+
+    calc_last_player = cribbage_scorer.last_player(played_cards, players)
+    assert calc_last_player == expected_last_player, f"When played:{played_cards}, and players: {players}"
+
+
+@pytest.mark.parametrize("hand, players, expected_count, expected_score, description", [
+    ([(1, "S"), (2, "H"), (3, "S")], ["Abi", "Bob"], 6, 3, "Run of 3, in order"),
+    ([(1, "S"), (3, "H"), (2, "S")], ["Abi", "Bob"], 6, 3, "Run of 3, out of order"),
+    ([(5, "D"), (3, "S"), (1, "H"), (2, "S")], ["Abi", "Bob"], 11, 3, "Run of 3, out of order"),
+    ([(4, "D"), (3, "S"), (1, "H"), (2, "S")], ["Abi", "Bob"], 10, 4, "Run of 4, out of order"),
+    ([(5, "D"), (4, "D"), (3, "S"), (2, "H"), (2, "S")], ["Abi", "Bob"], 16, 0, "Double Run of 4, should not sore"),
+    ([(1, "H"), (2, "S")], ["Abi", "Bob"], 3, 0, "run of 2"),
+    ([(2, "S"), (3, "H"), (4, "S"), (5, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 27, 6, "run of 6")
+])
+def test_runs(hand, players, expected_count, expected_score, description):
+
+    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
+    print(calc_count, calc_score, calc_desc)
+    assert calc_score == expected_score, \
+        f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
+        f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
+        f"The hand description was: {description} "
