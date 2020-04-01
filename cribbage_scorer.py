@@ -5,7 +5,27 @@ card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 
 
 
 def play_calc_score_whole_game(played_cards, players, last_card=False):
-    pass
+    scores = {}
+    for player in players:
+        scores[player] = 0
+
+    play_log = []
+    count = 0
+
+    for index in range(1, len(played_cards)+1):
+        cards = played_cards[0:index]
+        count, score, msg = play_score_just_made(cards,
+                                                 players,
+                                                 index == len(played_cards))
+
+        point_winner = last_player(played_cards, players)
+        scores[point_winner] += score
+        if score == 0:
+            play_log.append(f"Count: {count}, No Points scored")
+        else:
+            play_log.append(f"Count: {count}, {point_winner}: {msg}, scores: {scores[point_winner]}")
+
+    return dict(scores), count, play_log
 
 
 def play_score_just_made(played_cards, players, last_card=False):
@@ -19,8 +39,7 @@ def play_score_just_made(played_cards, players, last_card=False):
     scores.append(play_score_multiples(card_nums))
     return count, \
         sum([score[0] for score in scores]), \
-        ', '.join([score_msg[1] for score_msg in scores if score_msg != (0, "")]), \
-        last_player(played_cards, players)
+        ', '.join([score_msg[1] for score_msg in scores if score_msg != (0, "")])
 
 
 def play_score_last_card(count, last_card):
@@ -77,6 +96,12 @@ def count_cards(played_cards):
 
 
 def last_player(played_cards, players):
+    """
+    Who played the last card?
+    :param played_cards:
+    :param players:
+    :return: The players name
+    """
     if len(played_cards) == 0:
         return None
     return players[(len(played_cards) - 1) % len(players)]

@@ -10,7 +10,7 @@ import cribbage_scorer
 ])
 def test_simple_hands1(hand, players, expected_count, expected_score, description):
 
-    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
+    calc_count, calc_score, calc_desc = cribbage_scorer.play_score_just_made(hand, players)
     print(calc_count, calc_score, calc_desc)
     assert calc_score == expected_score, \
         f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
@@ -26,7 +26,7 @@ def test_simple_hands1(hand, players, expected_count, expected_score, descriptio
 ])
 def test_last_card(hand, players, last_card, expected_count, expected_score, description):
 
-    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players, last_card)
+    calc_count, calc_score, calc_desc = cribbage_scorer.play_score_just_made(hand, players, last_card)
     print(calc_count, calc_score, calc_desc)
     assert calc_score == expected_score, \
         f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
@@ -62,7 +62,7 @@ def test_last_player(played_cards, players, expected_last_player):
 ])
 def test_runs(hand, players, expected_count, expected_score, description):
 
-    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
+    calc_count, calc_score, calc_desc = cribbage_scorer.play_score_just_made(hand, players)
     print(calc_count, calc_score, calc_desc)
     assert calc_score == expected_score, \
         f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
@@ -85,3 +85,16 @@ def test_multiples(hand, players, expected_count, expected_score, description):
         f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
         f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
         f"The hand description was: {description} "
+
+
+@pytest.mark.parametrize("played_cards, players, expected_count, expected_scores, description", [
+    ([(2, "S"), (3, "H"), (4, "S"), (4, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 26, {"Abi": 2, "Bob": 1}, "Low score to each")
+])
+def test_whole_play_scoring(played_cards, players, expected_count, expected_scores, description):
+
+    calc_scores, calc_count, play_log = cribbage_scorer.play_calc_score_whole_game(played_cards, players)
+    print(calc_scores, calc_count, play_log)
+    assert calc_scores == expected_scores, \
+        f"The calculated score was: {calc_scores}, the expected score: {expected_scores}. " + \
+        f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
+        f"The play log was: {play_log} "
