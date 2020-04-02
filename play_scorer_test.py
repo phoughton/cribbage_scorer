@@ -79,16 +79,26 @@ def test_runs(hand, players, expected_count, expected_score, description):
 ])
 def test_multiples(hand, players, expected_count, expected_score, description):
 
-    calc_count, calc_score, calc_desc, player = cribbage_scorer.play_score_just_made(hand, players)
+    calc_count, calc_score, calc_desc = cribbage_scorer.play_score_just_made(hand, players)
     print(calc_count, calc_score, calc_desc)
     assert calc_score == expected_score, \
         f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
         f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
         f"The hand description was: {description} "
+    assert calc_count == expected_count
 
 
 @pytest.mark.parametrize("played_cards, players, expected_count, expected_scores, description", [
-    ([(2, "S"), (3, "H"), (4, "S"), (4, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 26, {"Abi": 2, "Bob": 1}, "Low score to each")
+    ([(2, "S"), (3, "H"), (4, "S"), (4, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 26, {"Abi": 3, "Bob": 3},
+     "Low score to each"),
+    ([(10, "S"), (3, "H"), (4, "S"), (4, "H"), (6, "S"), (4, "D")], ["Abi", "Bob"], 31, {"Abi": 0, "Bob": 4},
+     "Bob, pair and 31"),
+    ([(10, "S"), (3, "H"), (2, "S"), (4, "H"), (6, "S"), (4, "D")], ["Abi", "Bob"], 29, {"Abi": 2, "Bob": 4},
+     "Abi: 15 for 2, Bob gets 1 for last card"),
+    ([(10, "S"), (10, "H"), (10, "D"), (1, "H")], ["Abi", "Bob"], 31, {"Abi": 6, "Bob": 4},
+     "Abi 3 of a kind, Bob pair and 31"),
+    ([(10, "S"), (10, "H"), (10, "D"), (1, "H")], ["Abi", "Bob", "Charles"], 31, {"Abi": 2, "Bob": 2, "Charles": 6},
+     "Charles 3 of a kind, Bob pair and Abi gets 31")
 ])
 def test_whole_play_scoring(played_cards, players, expected_count, expected_scores, description):
 
@@ -98,3 +108,4 @@ def test_whole_play_scoring(played_cards, players, expected_count, expected_scor
         f"The calculated score was: {calc_scores}, the expected score: {expected_scores}. " + \
         f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
         f"The play log was: {play_log} "
+    assert calc_count == expected_count

@@ -18,12 +18,12 @@ def play_calc_score_whole_game(played_cards, players, last_card=False):
                                                  players,
                                                  index == len(played_cards))
 
-        point_winner = last_player(played_cards, players)
+        point_winner = last_player(cards, players)
         scores[point_winner] += score
         if score == 0:
             play_log.append(f"Count: {count}, No Points scored")
         else:
-            play_log.append(f"Count: {count}, {point_winner}: {msg}, scores: {scores[point_winner]}")
+            play_log.append(f"Count: {count}, {point_winner}: {msg}, scores so far: {scores[point_winner]}")
 
     return dict(scores), count, play_log
 
