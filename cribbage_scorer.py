@@ -5,9 +5,8 @@ card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 
 
 
 def play_calc_score_whole_game(played_cards, players):
-    scores = {}
-    for player in players:
-        scores[player] = 0
+
+    scores = {}.fromkeys(players, 0)
 
     players_in_play = players.copy()
     play_log = []
@@ -18,27 +17,25 @@ def play_calc_score_whole_game(played_cards, players):
         go_played_by = None
 
         if cards[-1] == (0, "GO"):
-            goer = last_player(cards, players)
-            players_in_play.remove(goer)
-            go_played_by = goer
+            go_played_by = last_player(cards, players)
+            players_in_play.remove(go_played_by)
 
-        count, score, msg = play_score_just_made(stripped_goes(cards),
-                                                 index == len(played_cards))
+        cards = remove_goes(cards)
 
-        point_winner = last_player(stripped_goes(cards), players_in_play)
+        count, score, msg = play_score_just_made(cards, index == len(played_cards))
+
+        point_winner = last_player(cards, players_in_play)
         scores[point_winner] += score
-        if score == 0:
-            if go_played_by is not None:
-                play_log.append(f"Count: {count}, No Points scored as {go_played_by} said Go. ")
-            else:
-                play_log.append(f"Count: {count}, No Points scored")
+
+        if score > 0:
+            play_log.append(f"Count: {count}, {point_winner}: {msg}, score so far: {scores[point_winner]} ")
         else:
-            play_log.append(f"Count: {count}, {point_winner}: {msg}, score so far: {scores[point_winner]}")
+            play_log.append(f"Count: {count}, No Points scored, {go_played_by} said Go. ")
 
     return dict(scores), count, play_log
 
 
-def stripped_goes(played_cards):
+def remove_goes(played_cards):
     cards = played_cards.copy()
     while (0, "GO") in cards:
         cards.remove((0, "GO"))

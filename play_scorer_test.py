@@ -116,7 +116,15 @@ def test_whole_play_scoring(played_cards, players, expected_count, expected_scor
      "Abi GOs and Bob gets 2nd pair"),
     ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (6, "C")], ["Abi", "Bob", "Charles"], 31,
      {"Abi": 2, "Bob": 4, "Charles": 0},
-     "Abi GOs and Bob gets 2nd pair, Charles gets nothing")
+     "Abi gets pair, Bob gets 2nd pair and 31, Charles gets nothing"),
+    ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (0, "GO"), (6, "C")],
+     ["Abi", "Bob", "Charles"], 31,
+     {"Abi": 2, "Bob": 0, "Charles": 4},
+     "Abi gets pair, Bob gets 0, and Charles gets 2nd pair and 31"),
+    ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (0, "GO"), (6, "C")],
+     ["Abi", "Bob", "Charles", "David"], 31,
+     {"Abi": 4, "Bob": 0, "Charles": 0, "David": 2},
+     "David gets pair, Bob & Charles get 0, and Abi gets 2nd pair and 31")
 ])
 def test_whole_play_scoring_with_go(played_cards, players, expected_count, expected_scores, description):
 
