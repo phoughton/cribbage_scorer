@@ -4,31 +4,48 @@ import itertools, more_itertools
 card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
 
 
-def play_calc_score_whole_game(played_cards, players, last_card=False):
+def play_calc_score_whole_game(played_cards, players):
     scores = {}
     for player in players:
         scores[player] = 0
 
+    players_in_play = players.copy()
     play_log = []
     count = 0
 
     for index in range(1, len(played_cards)+1):
         cards = played_cards[0:index]
-        count, score, msg = play_score_just_made(cards,
-                                                 players,
+        go_played_by = None
+
+        if cards[-1] == (0, "GO"):
+            goer = last_player(cards, players)
+            players_in_play.remove(goer)
+            go_played_by = goer
+
+        count, score, msg = play_score_just_made(stripped_goes(cards),
                                                  index == len(played_cards))
 
-        point_winner = last_player(cards, players)
+        point_winner = last_player(stripped_goes(cards), players_in_play)
         scores[point_winner] += score
         if score == 0:
-            play_log.append(f"Count: {count}, No Points scored")
+            if go_played_by is not None:
+                play_log.append(f"Count: {count}, No Points scored as {go_played_by} said Go. ")
+            else:
+                play_log.append(f"Count: {count}, No Points scored")
         else:
-            play_log.append(f"Count: {count}, {point_winner}: {msg}, scores so far: {scores[point_winner]}")
+            play_log.append(f"Count: {count}, {point_winner}: {msg}, score so far: {scores[point_winner]}")
 
     return dict(scores), count, play_log
 
 
-def play_score_just_made(played_cards, players, last_card=False):
+def stripped_goes(played_cards):
+    cards = played_cards.copy()
+    while (0, "GO") in cards:
+        cards.remove((0, "GO"))
+    return cards
+
+
+def play_score_just_made(played_cards, last_card=False):
     scores = []
     count = count_cards(played_cards)
     card_nums = get_card_numbers(played_cards)
