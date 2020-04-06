@@ -4,6 +4,17 @@ import itertools, more_itertools
 card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
 
 
+def cut_calc_score(cut_card, players, dealer):
+    scores = {}.fromkeys(players, 0)
+    msg = ""
+
+    if cut_card[0] == 11:
+        scores[dealer] = 2
+        msg = "Cut card is Jack, Dealer scores 2pts. "
+
+    return scores, msg
+
+
 def play_calc_score_whole_game(played_cards, players):
 
     scores = {}.fromkeys(players, 0)

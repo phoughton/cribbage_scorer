@@ -136,3 +136,16 @@ def test_whole_play_scoring_with_go(played_cards, players, expected_count, expec
         f"The play log was: {play_log} "
     assert calc_count == expected_count
 
+
+@pytest.mark.parametrize("cut_card, players, dealer, expected_scores, description", [
+    ((11, "S"), ["Abi", "Bob"], "Bob", {"Abi": 0, "Bob": 2}, "Bob dealer when cut gets Jack"),
+    ((11, "S"), ["Abi", "Bob"], "Abi", {"Abi": 2, "Bob": 0}, "Abi dealer when cut gets Jack"),
+    ((1, "D"), ["Abi", "Bob"], "Bob", {"Abi": 0, "Bob": 0}, "No-one cuts Jack"),
+    ((10, "H"), ["Abi", "Bob"], "Abi", {"Abi": 0, "Bob": 0}, "No-one cuts Jack")
+])
+def test_cut_score(cut_card, players, dealer, expected_scores, description):
+
+    calc_scores, msg = cribbage_scorer.cut_calc_score(cut_card, players, dealer)
+    print(calc_scores, msg)
+    assert calc_scores == expected_scores, \
+        f"The calculated score was: {calc_scores}, the expected score: {expected_scores}. "
