@@ -10,7 +10,7 @@ def cut_calc_score(cut_card, players, dealer):
 
     if cut_card[0] == 11:
         scores[dealer] = 2
-        msg = "Cut card is Jack, Dealer scores 2pts. "
+        msg = "Cut card is a Jack, Dealer scores 2pts. "
 
     return scores, msg
 

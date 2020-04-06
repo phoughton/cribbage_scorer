@@ -6,6 +6,27 @@ For details and history of the game [Wikipedia has a good summary](https://en.wi
 
 For details of playing rules the [American Cribbage Congress has the details](http://www.cribbage.org/NewSite/rules/rule1.asp#section7)
 
+### The Cut
+The `cut_calc_score` function is used during 'the cut' stage of the game.
+
+Its a simple function, to assign the 2 points given to the dealer if the pone cuts a Jack as the starter card.
+
+```python
+import cribbage_scorer
+
+cut_card = (11, "D")
+players = ["Abi", "Bob"]
+dealer = "Bob"
+
+calc_scores, msg  = cribbage_scorer.cut_calc_score(cut_card, players, dealer)
+print(calc_scores, msg )
+```
+
+Results:
+```bash
+{'Abi': 0, 'Bob': 2} Cut card is a Jack, Dealer scores 2pts.
+```
+
 ### The Play
 
 The `play_calc_score_whole_game` function is used during 'the play' stage of the game.
