@@ -1,5 +1,6 @@
 import pytest
 import cribbage_scorer
+import random
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
@@ -73,7 +74,8 @@ def test_multi_runs(starter, hand, expected_score, description):
     ((8, "D"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], True, 0, "Not a flush, as it is a crib"),
     ((8, "D"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], False, 4, "4 card flush"),
     ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "H")], False, 0, "Not a flush."),
-    ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], False, 0, "Not a flush.")
+    ((8, "S"), [(12, "D"), (13, "S"), (1, "C"), (2, "H")], False, 0, "Not a flush."),
+    ((6, 'C'), [(7, 'C'), (7, 'H'), (8, 'H'), (5, 'C')], False, 14, "Not a flush")
 ])
 def test_flushes(starter, hand, crib, expected_score, description):
     calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
@@ -138,3 +140,28 @@ def test_etc_hands__crib_affected(starter, hand, crib, expected_score, descripti
         f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
         f"The starter card was: {starter} and hand was: {hand}, " + \
         f"The hand description was: {description} "
+
+
+@pytest.fixture(params=range(0, 1000))
+def card_sets(request):
+        suits = ['H', 'C', 'S', 'D']
+        ranks = range(1, 13)
+        cards = set()
+        while len(cards) < 5:
+            suit = random.choice(suits)
+            rank = random.choice(ranks)
+            cards.add((rank, suit))
+        return list(cards)
+
+
+def test_for_impossible_scores(card_sets):
+
+    starter_card = card_sets.pop()
+    hand = card_sets
+
+    calculated_score = cribbage_scorer.show_calc_score(starter_card, hand)
+
+    assert calculated_score[0] not in [19, 25, 26, 27], \
+        f"The calculated score was: {calculated_score}, this was an impossible score " + \
+        f"The starter card was: {starter_card} and hand was: {hand}, "
+

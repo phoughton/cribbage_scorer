@@ -172,13 +172,15 @@ def score_flushes(hand_suits, starter, crib):
     running_msg = []
 
     multiples_list = count_multiples(hand_suits)
-
-    if len(multiples_list) == 4 and starter[0] == hand_suits[0]:
-        running_score.append(5)
-        running_msg.append("Five card flush. (5pts)")
-    elif len(multiples_list) == 4 and not crib:
-        running_score.append(4)
-        running_msg.append("Four card flush (4pts)")
+    if len(set(multiples_list)) == 1:
+        if len(multiples_list) == 4 and starter[0] == hand_suits[0]:
+            running_score.append(5)
+            running_msg.append("Five card flush. (5pts)")
+        elif len(multiples_list) == 4 and not crib:
+            running_score.append(4)
+            running_msg.append("Four card flush (4pts)")
+    else:
+        return 0, ''
 
     return sum(running_score), ', '.join(running_msg)
 
