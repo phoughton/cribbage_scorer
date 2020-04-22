@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="unicode_babel",
+    name="cribbage_scorer",
     version="0.0.1",
     author="Peter Houghton",
     author_email="pete@investigatingsoftware.co.uk",
