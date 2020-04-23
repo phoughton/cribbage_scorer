@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cribbage_scorer",
-    version="0.0.4",
+    version="0.0.5",
     author="Peter Houghton",
     author_email="pete@investigatingsoftware.co.uk",
     description="A Cribbage scoring tool",
