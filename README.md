@@ -4,7 +4,42 @@ Cribbage scorer is a simple scoring engine for the classic card game.
 
 For details and history of the game [Wikipedia has a good summary](https://en.wikipedia.org/wiki/Cribbage)
 
-For details of playing rules the [American Cribbage Congress has the details](http://www.cribbage.org/NewSite/rules/rule1.asp#section7)
+For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules/rule1.asp#section7)
+
+### Installation 
+```bash
+pip install cribbage-scorer
+```
+
+## Scoring
+
+Examples of how to use the library are below.
+
+In the library and examples, I have used the following conventions:
+
+- 1 : Ace
+- 2-10 : Non face cards.
+- 11 : Jack
+- 12 : Queen
+- 13 : King
+
+D = Diamonds,
+H = Hearts,
+C = Clubs,
+S = Spades.
+
+Players are listed in the order in which they play. So...
+1. _Abi_ played a 5 of Diamonds, 
+1. _Bob_ played a 5 of Spades, 
+1. _Abi_ played a 5 of Clubs 
+1. _Bob_ played a Jack of Diamonds.
+
+...is represented as:
+```python 
+players = ["Abi", "Bob"]
+played_cards = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
+```
+
 
 ### The Cut
 The `cut_calc_score` function is used during 'the cut' stage of the game.
