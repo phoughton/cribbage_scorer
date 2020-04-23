@@ -1,5 +1,5 @@
 import pytest
-import cribbage_scorer
+from cribbage_scorer import cribbage_scorer
 import random
 
 

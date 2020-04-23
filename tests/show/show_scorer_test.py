@@ -1,6 +1,5 @@
 import pytest
-import cribbage_scorer
-import random
+from cribbage_scorer import cribbage_scorer
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [

@@ -12,7 +12,8 @@ The `cut_calc_score` function is used during 'the cut' stage of the game.
 Its a simple function, to assign the 2 points given to the dealer if the pone cuts a Jack as the starter card.
 
 ```python
-import cribbage_scorer
+
+from cribbage_scorer import cribbage_scorer
 
 cut_card = (11, "D")
 players = ["Abi", "Bob"]
@@ -35,7 +36,8 @@ The `play_calc_score_whole_game` function is used during 'the play' stage of the
 
 To use, clone from GitHub and run this Python code:
 ```python
-import cribbage_scorer
+
+from cribbage_scorer import cribbage_scorer
 
 players = ["Abi", "Bob"]
 played_cards = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
@@ -56,7 +58,8 @@ The `show_calc_score` function is used during 'the show' stage of the game.
 
 To use, clone from GitHub and run this Python code:
 ```python
-import cribbage_scorer
+
+from cribbage_scorer import cribbage_scorer
 
 starter = (5, "D")
 hand = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
