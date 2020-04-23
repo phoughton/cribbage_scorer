@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cribbage_scorer",
-    version="0.0.5",
+    version="0.0.6",
     author="Peter Houghton",
     author_email="pete@investigatingsoftware.co.uk",
     description="A Cribbage scoring tool",
@@ -13,6 +13,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/phoughton/cribbage_scorer",
     packages=setuptools.find_packages(),
+    install_requires=[
+          'more-itertools',
+      ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
