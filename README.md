@@ -54,8 +54,8 @@ cut_card = (11, "D")
 players = ["Abi", "Bob"]
 dealer = "Bob"
 
-calc_scores, msg  = cribbage_scorer.cut_calc_score(cut_card, players, dealer)
-print(calc_scores, msg )
+scores, msg  = cribbage_scorer.cut_calc_score(cut_card, players, dealer)
+print(scores, msg )
 ```
 
 Results:
@@ -77,13 +77,13 @@ from cribbage_scorer import cribbage_scorer
 players = ["Abi", "Bob"]
 played_cards = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
 
-calc_scores, calc_count, play_log = cribbage_scorer.play_calc_score_whole_game(played_cards, players)
-print(calc_scores, play_log)
+scores, current_count, play_log = cribbage_scorer.play_calc_score_whole_game(played_cards, players)
+print(scores, current_count, play_log)
 ```
 
 Results:
 ```bash
-{'Abi': 8, 'Bob': 3} ['Count: 5, No Points scored, None said Go. ', 'Count: 10, Bob: 2 of a kind (2pts), score so far: 2 ', 'Count: 15, Abi: 15 for 2pts, 3 of a kind (6pts), score so far: 8 ', 'Count: 25, Bob: Last card (1pt), score so far: 3 ']
+{'Abi': 8, 'Bob': 3} 25 ['Count: 5, No Points scored, None said Go. ', 'Count: 10, Bob: 2 of a kind (2pts), score so far: 2 ', 'Count: 15, Abi: 15 for 2pts, 3 of a kind (6pts), score so far: 8 ', 'Count: 25, Bob: Last card (1pt), score so far: 3 ']
 ```
 
 ### The Show
@@ -100,8 +100,8 @@ starter = (5, "D")
 hand = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
 crib = False
 
-calculated_score = cribbage_scorer.show_calc_score(starter, hand, crib)
-print(calculated_score)
+score, msg = cribbage_scorer.show_calc_score(starter, hand, crib)
+print(score, msg)
 ```
 Results:
 ```
