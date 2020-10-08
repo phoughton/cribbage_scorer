@@ -33,10 +33,12 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r build_requirements.txt
+            pip install -r requirements.txt
+
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "build_requirements.txt" }}
+          key: v1-dependencies-{{ checksum "build_requirements.txt" }}-{{ checksum "requirements.txt" }}
 
       - run:
           name: run_tests
