@@ -16,7 +16,7 @@ def cut_calc_score(cut_card, players, dealer):
     return scores, msg
 
 
-def play_calc_score_whole_game(played_cards, players):
+def play_calc_score_set(played_cards, players):
 
     scores = {}.fromkeys(players, 0)
 
@@ -34,7 +34,7 @@ def play_calc_score_whole_game(played_cards, players):
 
         cards = remove_goes(cards)
 
-        count, score, msg = play_score_just_made(cards, index == len(played_cards))
+        count, score, msg = play_score_ongoing(cards, index == len(played_cards))
 
         point_winner = last_player(cards, players_in_play)
         scores[point_winner] += score
@@ -54,7 +54,7 @@ def remove_goes(played_cards):
     return cards
 
 
-def play_score_just_made(played_cards, last_card=False):
+def play_score_ongoing(played_cards, last_card=False):
     scores = []
     count = count_cards(played_cards)
     card_nums = get_card_numbers(played_cards)

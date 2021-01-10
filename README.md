@@ -65,9 +65,9 @@ Results:
 
 ### The Play
 
-The `play_calc_score_whole_game` function is used during 'the play' stage of the game.
+The `play_calc_score_set` function is used during 'the play' stage of the game.
 
-`play_calc_score_whole_game` handles 3 and 4 players as well as the standard 2 player game. It also understands "Go" calls.
+`play_calc_score_set` handles 3 and 4 players as well as the standard 2 player game. It also understands "Go" calls.
 
 To use, clone from GitHub and run this Python code:
 ```python
@@ -77,7 +77,7 @@ from cribbage_scorer import cribbage_scorer
 players = ["Abi", "Bob"]
 played_cards = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
 
-scores, current_count, play_log = cribbage_scorer.play_calc_score_whole_game(played_cards, players)
+scores, current_count, play_log = cribbage_scorer.play_calc_score_set(played_cards, players)
 print(scores, current_count, play_log)
 ```
 
