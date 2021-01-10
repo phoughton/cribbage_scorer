@@ -69,6 +69,10 @@ The `play_calc_score_set` function is used during 'the play' stage of the game.
 
 `play_calc_score_set` handles 3 and 4 players as well as the standard 2 player game. It also understands "Go" calls.
 
+Note: we use the term 'set' here to refer to a subset of the play, where the players are counting from a first played card upto either last card, Go or 31.
+Once the players have ended a set the cards are put aside and another set begins until all cards are played.
+The 'play' section of the game usually constitutes multiple sets.
+
 To use, clone from GitHub and run this Python code:
 ```python
 
@@ -85,6 +89,9 @@ Results:
 ```bash
 {'Abi': 8, 'Bob': 3} 25 ['Count: 5, No Points scored, None said Go. ', 'Count: 10, Bob: 2 of a kind (2pts), score so far: 2 ', 'Count: 15, Abi: 15 for 2pts, 3 of a kind (6pts), score so far: 8 ', 'Count: 25, Bob: Last card (1pt), score so far: 3 ']
 ```
+
+Behind the scenes this method calls `play_score_ongoing` for each card placed down. This provides the scoring and message for each card placed.
+You may choose to use this more internal method, to provide details of each card played, though the full play to that point in time requires `play_calc_score_set` to be used.
 
 ### The Show
 The `show_calc_score` function is used during 'the show' stage of the game.
