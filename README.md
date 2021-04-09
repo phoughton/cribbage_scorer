@@ -2,9 +2,9 @@
 
 Cribbage scorer is a simple scoring engine for the classic card game.
 
-For details and history of the game [Wikipedia has a good summary](https://en.wikipedia.org/wiki/Cribbage)
+For details, history and a good summary of the rules of the game see [Wikipedia](https://en.wikipedia.org/wiki/Cribbage)
 
-For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules/rule1.asp#section7)
+For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules)
 
 ### Installation 
 ```bash
