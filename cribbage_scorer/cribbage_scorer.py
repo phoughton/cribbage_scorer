@@ -17,7 +17,29 @@ def cut_calc_score(cut_card, players, dealer):
 
 
 def play_calc_score_set(played_cards, players):
+    """Calculate the the scores made so far in the play.
 
+    E.g.:
+    scores, count, playlog = play_calc_score_set([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (0, "GO"), (6, "C")],
+     ["Abi", "Bob", "Charles"])
+     
+    returns 3 items: 
+
+    scores = {"Abi": 2, "Bob": 0, "Charles": 4},
+
+    count = 31,
+
+    play_log = "Abi gets pair, Bob gets 0, and Charles gets 2nd pair and 31"
+
+
+    Args:
+        played_cards (list): The cards used in 'the play' part of the game, so far.
+
+        players (list): A list of the players.
+
+    Returns:
+        dict, int, str: A dict of the scores, the total count so far, text log of the points played so far.
+    """
     scores = {}.fromkeys(players, 0)
 
     players_in_play = players.copy()
@@ -123,10 +145,19 @@ def count_cards(played_cards):
 
 def last_player(played_cards, players):
     """
-    Who played the last card?
-    :param played_cards:
-    :param players:
-    :return: The players name
+    Return person who played the last card.
+    
+    E.g.:    
+    last_player([(1, "S"), (2, "S")], ["Abi", "Bob"])
+    
+    returns: "Bob"
+
+    Args:
+        played_cards (list):
+        players (list):
+    
+    Returns: 
+        return (str): The players name
     """
     if len(played_cards) == 0:
         return None
@@ -187,6 +218,26 @@ def score_flushes(hand_suits, starter, crib):
 
 
 def count_multiples(card_suit_or_rank):
+    """Return a list of multiples.
+    A multiple is 2 or more of any item in card_suit_or_rank.
+
+    E.g.:
+    ['C','H','S','S']
+    returns:
+    ['S','S']
+
+    E.g.:
+    ['H','H','S','S']
+    returns:
+    ['H','H','S','S']
+
+    Args:
+        card_suit_or_rank (list): card suits or ranks
+
+    Returns:
+        multiples_list (list): The items that occur only once have been remove.
+
+    """
     multiples_list = []
     for key, group in itertools.groupby(card_suit_or_rank):
         group_list = list(group)

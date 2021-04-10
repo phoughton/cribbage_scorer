@@ -4,6 +4,7 @@ from cribbage_scorer import cribbage_scorer
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
         ((5, "H"), [(7, "S"), (9, "S"), (2, "C"), (9, "H")], 2, "simple, double 9"),
+        ((5, "H"), [(7, "S"), (9, "S"), (2, "H"), (9, "H")], 2, "simple, double 9. 2 pairs of suits"),
         ((4, "H"), [(4, "S"), (9, "S"), (1, "C"), (9, "H")], 4, "simple, double 4 and double 9"),
         ((4, "H"), [(4, "S"), (9, "S"), (1, "C"), (4, "D")], 6, "simple, triple 4 "),
         ((4, "H"), [(4, "S"), (9, "S"), (4, "C"), (4, "D")], 12, "simple, quadruple 4 ")
