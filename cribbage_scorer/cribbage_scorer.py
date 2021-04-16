@@ -87,7 +87,7 @@ def play_score_ongoing(played_cards, last_card=False):
     scores.append(play_score_multiples(card_nums))
     return count, \
         sum([score[0] for score in scores]), \
-        ', '.join([score_msg[1] for score_msg in scores if score_msg != (0, "")])
+        '|'.join([score_msg[1] for score_msg in scores if score_msg != (0, "")])
 
 
 def play_score_last_card(count, last_card):
@@ -177,7 +177,7 @@ def show_calc_score(starter, hand, crib=False):
     scores.append(score_flushes(hand_suits, starter_suit, crib))
     scores.append(score_his_nobs(hand, starter))
 
-    return sum([score[0] for score in scores]), ', '.join(
+    return sum([score[0] for score in scores]), '|'.join(
         [score_msg[1] for score_msg in scores if score_msg != (0, "")])
 
 
