@@ -214,7 +214,7 @@ def score_flushes(hand_suits, starter, crib):
     else:
         return 0, ''
 
-    return sum(running_score), ', '.join(running_msg)
+    return sum(running_score), '|'.join(running_msg)
 
 
 def count_multiples(card_suit_or_rank):
@@ -272,7 +272,7 @@ def score_runs(card_nums):
                 running_score.append(group_length)
                 running_msg.append(f"Run of {group_length} cards ({group_length}pts)")
 
-    return sum(running_score), ", ".join(running_msg)
+    return sum(running_score), "|".join(running_msg)
 
 
 def face_valuer(raw_card_value):
@@ -325,7 +325,7 @@ def score_fifteens(hand, starter):
             running_score.append(2)
             score_msgs.append(f"Made 15 from {card_nameify(five_card_seq)} (2pts)")
 
-    return sum(running_score), ", ".join(score_msgs)
+    return sum(running_score), "|".join(score_msgs)
 
 
 def score_multiples(card_nums):
@@ -353,4 +353,4 @@ def score_multiples(card_nums):
         else:
             raise Exception(f"An illegal multiple  of {count} was found in hand: {card_nums}")
 
-    return sum(score_total), ", ".join(score_msgs)
+    return sum(score_total), "|".join(score_msgs)
