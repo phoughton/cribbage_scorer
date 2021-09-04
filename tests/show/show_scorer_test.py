@@ -101,7 +101,7 @@ def test_his_nobs(starter, hand, crib, expected_score, description):
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
-    ((5, "D"), [(5, "D"), (5, "S"), (5, "C"), (11, "D")], 29, "Perfect hand, 29"),
+    ((5, "D"), [(5, "H"), (5, "S"), (5, "C"), (11, "D")], 29, "Perfect hand, 29"),
     ((10, "H"), [(5, "D"), (5, "S"), (5, "C"), (5, "H")], 28, "2nd best hand, 28"),
     ((9, "D"), [(3, "D"), (3, "S"), (3, "C"), (3, "H")], 24, "1. 3rd best hand, 24"),
     ((6, "H"), [(6, "S"), (5, "D"), (5, "C"), (4, "H")], 24, "2. 3rd best hand, 24"),
