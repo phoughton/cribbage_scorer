@@ -81,6 +81,9 @@ def remove_goes(played_cards):
 
 
 def play_score_ongoing(played_cards, last_card=False):
+    
+    dupe_check(played_cards)
+
     scores = []
     count = count_cards(played_cards)
     card_nums = get_card_numbers(played_cards)
