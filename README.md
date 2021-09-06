@@ -103,7 +103,7 @@ To use, clone from GitHub and run this Python code:
 
 from cribbage_scorer import cribbage_scorer
 
-starter = (5, "D")
+starter = (5, "H")
 hand = [(5, "D"), (5, "S"), (5, "C"), (11, "D")]
 crib = False
 

@@ -1,6 +1,7 @@
 from collections import defaultdict
 import itertools
 import more_itertools
+from collections import Counter
 
 card_names = {1: "Ace", 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: "Jack", 12: "Queen", 13: "King"}
 
@@ -40,6 +41,9 @@ def play_calc_score_set(played_cards, players):
     Returns:
         dict, int, str: A dict of the scores, the total count so far, text log of the points played so far.
     """
+
+    dupe_check(played_cards)
+
     scores = {}.fromkeys(players, 0)
 
     players_in_play = players.copy()
@@ -77,6 +81,9 @@ def remove_goes(played_cards):
 
 
 def play_score_ongoing(played_cards, last_card=False):
+    
+    dupe_check(played_cards)
+
     scores = []
     count = count_cards(played_cards)
     card_nums = get_card_numbers(played_cards)
@@ -143,6 +150,27 @@ def count_cards(played_cards):
     return sum(face_values)
 
 
+def dupe_check(hand, starter=None):
+    if starter is None:
+        all_cards = hand
+    else:
+        all_cards = hand + [starter]
+
+    all_cards = list(filter((0, "GO").__ne__ , all_cards))
+
+    set_of_all_cards = set(all_cards)
+    counter = Counter(all_cards)
+
+    duplicates = []
+    if len(all_cards) != len(set_of_all_cards):
+        for card in set_of_all_cards:
+            if counter[card] > 1:
+                duplicates.append(str(card[0]) + card[1])
+
+    if len(duplicates) > 0:
+        raise ValueError("Duplicate cards found: " + str(duplicates))
+        
+
 def last_player(played_cards, players):
     """
     Return person who played the last card.
@@ -165,6 +193,23 @@ def last_player(played_cards, players):
 
 
 def show_calc_score(starter, hand, crib=False):
+    """
+    Calculates the Score from the Show, for a given hand.
+    
+    E.g.:    
+    cribbage_scorer.show_calc_score((6, "D"), [(6, "S"), (5, "S"), (4, "S"), (3, "S")])
+    
+    returns: "Bob"
+
+    Args:
+        starter (tuple):
+        hand (list):
+    
+    Returns: 
+        return (list): [score, description]
+    """
+    dupe_check(hand, starter)
+
     scores = []
 
     card_nums = sorted(get_card_numbers(hand, starter))
