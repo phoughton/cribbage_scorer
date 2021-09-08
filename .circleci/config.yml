@@ -48,16 +48,17 @@ jobs:
   deploy_package:
     docker:
       # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.7.5
 
     working_directory: ~/repo
-          - run:
-          name: build_package
-          command: |
-            python3 setup.py sdist bdist_wheel
+    
     steps:
       - checkout
+
+      - run:
+         name: build_package
+         command: |
+          python3 setup.py sdist bdist_wheel
 
       # Download and cache dependencies
       - restore_cache:
