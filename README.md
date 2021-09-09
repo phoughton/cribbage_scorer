@@ -6,10 +6,16 @@ For details, history and a good summary of the rules of the game see [Wikipedia]
 
 For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules)
 
-### Installation 
+## Installation 
 ```bash
 pip install cribbage-scorer
 ```
+
+## Run the tests
+```bash
+python -m pytest
+```
+
 
 ## Scoring
 
