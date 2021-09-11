@@ -18,13 +18,13 @@ def test_simple_hands1(hand, players, expected_count, expected_score, descriptio
         f"The hand description was: {description} "
 
 
-@pytest.mark.parametrize("hand, last_card, expected_count, expected_score, description", [
-        ([(13, "S"), (12, "H"), (10, "S")], True, 30, 1, "Last card at 30"),
-        ([(13, "S"), (12, "H"), (9, "S")], True, 30, 1, "Last card at 29"),
-        ([(13, "S"), (12, "H"), (9, "S")], False, 30, 0, "Not last card at 29"),
-        ([(13, "S"), (12, "H"), (10, "S"), (1, "D")], True, 31, 2, "Last card at 31")
+@pytest.mark.parametrize("hand, players, last_card, expected_count, expected_score, description", [
+        ([(13, "S"), (12, "H"), (10, "S")], ["Abi", "Bob"], True, 30, 1, "Last card at 30"),
+        ([(13, "S"), (12, "H"), (9, "S")], ["Abi", "Bob"], True, 30, 1, "Last card at 29"),
+        ([(13, "S"), (12, "H"), (9, "S")], ["Abi", "Bob"], False, 30, 0, "Not last card at 29"),
+        ([(13, "S"), (12, "H"), (10, "S"), (1, "D")], ["Abi", "Bob"], True, 31, 2, "Last card at 31")
 ])
-def test_last_card(hand, last_card, expected_count, expected_score, description):
+def test_last_card(hand, players, last_card, expected_count, expected_score, description):
 
     calc_count, calc_score, calc_desc = cribbage_scorer.play_score_ongoing(hand, last_card)
     print(calc_count, calc_score, calc_desc)
@@ -51,16 +51,16 @@ def test_last_player(played_cards, players, expected_last_player):
     assert calc_last_player == expected_last_player, f"When played:{played_cards}, and players: {players}"
 
 
-@pytest.mark.parametrize("hand, expected_count, expected_score, description", [
-    ([(1, "S"), (2, "H"), (3, "S")], 6, 3, "Run of 3, in order"),
-    ([(1, "S"), (3, "H"), (2, "S")], 6, 3, "Run of 3, out of order"),
-    ([(5, "D"), (3, "S"), (1, "H"), (2, "S")], 11, 3, "Run of 3, out of order"),
-    ([(4, "D"), (3, "S"), (1, "H"), (2, "S")], 10, 4, "Run of 4, out of order"),
-    ([(5, "D"), (4, "D"), (2, "S"), (3, "H"), (2, "D")], 16, 0, "Double Run of 4, should not sore"),
-    ([(1, "H"), (2, "S")], 3, 0, "run of 2"),
-    ([(2, "S"), (3, "H"), (4, "S"), (5, "H"), (6, "S"), (7, "D")], 27, 6, "run of 6")
+@pytest.mark.parametrize("hand, players, expected_count, expected_score, description", [
+    ([(1, "S"), (2, "H"), (3, "S")], ["Abi", "Bob"], 6, 3, "Run of 3, in order"),
+    ([(1, "S"), (3, "H"), (2, "S")], ["Abi", "Bob"], 6, 3, "Run of 3, out of order"),
+    ([(5, "D"), (3, "S"), (1, "H"), (2, "S")], ["Abi", "Bob"], 11, 3, "Run of 3, out of order"),
+    ([(4, "D"), (3, "S"), (1, "H"), (2, "S")], ["Abi", "Bob"], 10, 4, "Run of 4, out of order"),
+    ([(5, "D"), (4, "D"), (2, "S"), (3, "H"), (2, "D")], ["Abi", "Bob"], 16, 0, "Double Run of 4, should not sore"),
+    ([(1, "H"), (2, "S")], ["Abi", "Bob"], 3, 0, "run of 2"),
+    ([(2, "S"), (3, "H"), (4, "S"), (5, "H"), (6, "S"), (7, "D")], ["Abi", "Bob"], 27, 6, "run of 6")
 ])
-def test_runs(hand, expected_count, expected_score, description):
+def test_runs(hand, players, expected_count, expected_score, description):
 
     calc_count, calc_score, calc_desc = cribbage_scorer.play_score_ongoing(hand)
     print(calc_count, calc_score, calc_desc)
@@ -111,18 +111,22 @@ def test_whole_play_scoring(played_cards, players, expected_count, expected_scor
     assert calc_count == expected_count
 
 
-@pytest.mark.parametrize("played_cards, players, expected_count, expected_scores", [
-    ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (6, "C")], ["Abi", "Bob"], 31, {"Abi": 0, "Bob": 6}),
+@pytest.mark.parametrize("played_cards, players, expected_count, expected_scores, description", [
+    ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (6, "C")], ["Abi", "Bob"], 31, {"Abi": 0, "Bob": 6},
+     "Abi GOs and Bob gets 2nd pair"),
     ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (6, "C")], ["Abi", "Bob", "Charles"], 31,
-     {"Abi": 2, "Bob": 4, "Charles": 0}),
+     {"Abi": 2, "Bob": 4, "Charles": 0},
+     "Abi gets pair, Bob gets 2nd pair and 31, Charles gets nothing"),
     ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (0, "GO"), (6, "C")],
      ["Abi", "Bob", "Charles"], 31,
-     {"Abi": 2, "Bob": 0, "Charles": 4}),
+     {"Abi": 2, "Bob": 0, "Charles": 4},
+     "Abi gets pair, Bob gets 0, and Charles gets 2nd pair and 31"),
     ([(1, "S"), (3, "H"), (4, "S"), (4, "H"), (7, "S"), (6, "D"), (0, "GO"), (0, "GO"), (6, "C")],
      ["Abi", "Bob", "Charles", "David"], 31,
-     {"Abi": 4, "Bob": 0, "Charles": 0, "David": 2})
+     {"Abi": 4, "Bob": 0, "Charles": 0, "David": 2},
+     "David gets pair, Bob & Charles get 0, and Abi gets 2nd pair and 31")
 ])
-def test_whole_play_scoring_with_go(played_cards, players, expected_count, expected_scores):
+def test_whole_play_scoring_with_go(played_cards, players, expected_count, expected_scores, description):
 
     calc_scores, calc_count, play_log = cribbage_scorer.play_calc_score_set(played_cards, players)
     print(calc_scores, calc_count, play_log)
