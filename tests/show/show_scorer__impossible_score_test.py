@@ -1,18 +1,18 @@
+import random
 import pytest
 from cribbage_scorer import cribbage_scorer
-import random
 
 
 @pytest.fixture(params=range(0, 1000))
 def card_sets(request):
-        suits = ['H', 'C', 'S', 'D']
-        ranks = range(1, 13)
-        cards = set()
-        while len(cards) < 5:
-            suit = random.choice(suits)
-            rank = random.choice(ranks)
-            cards.add((rank, suit))
-        return list(cards)
+    suits = ['H', 'C', 'S', 'D']
+    ranks = range(1, 13)
+    cards = set()
+    while len(cards) < 5:
+        suit = random.choice(suits)
+        rank = random.choice(ranks)
+        cards.add((rank, suit))
+    return list(cards)
 
 
 def test_for_impossible_scores(card_sets):

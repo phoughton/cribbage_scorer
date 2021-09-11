@@ -15,7 +15,7 @@ def test_simple_hands1(hand, players, expected_count, expected_score, descriptio
     assert calc_score == expected_score, \
         f"The calculated score was: {calc_score}, the expected score: {expected_score}. " + \
         f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
-        f"The hand description was: {description} "
+        f"The hand description was: {description}, players: {players} "
 
 
 @pytest.mark.parametrize("hand, players, last_card, expected_count, expected_score, description", [
@@ -107,7 +107,7 @@ def test_whole_play_scoring(played_cards, players, expected_count, expected_scor
     assert calc_scores == expected_scores, \
         f"The calculated score was: {calc_scores}, the expected score: {expected_scores}. " + \
         f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
-        f"The play log was: {play_log} "
+        f"The play log was: {play_log}, predicted description: {description} "
     assert calc_count == expected_count
 
 
@@ -133,7 +133,7 @@ def test_whole_play_scoring_with_go(played_cards, players, expected_count, expec
     assert calc_scores == expected_scores, \
         f"The calculated score was: {calc_scores}, the expected score: {expected_scores}. " + \
         f"The calculated count was: {calc_count} and the expected : {expected_count} " + \
-        f"The play log was: {play_log} "
+        f"The play log was: {play_log}, predicted description: {description} "
     assert calc_count == expected_count
 
 
