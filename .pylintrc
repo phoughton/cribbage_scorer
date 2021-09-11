@@ -1,0 +1,2 @@
+[MASTER]
+init-hook=sys.path += [os.path.abspath(os.path.join(os.path.sep, *sys.argv[-1].split(os.sep)[:i])) for i, _ in enumerate(sys.argv[-1].split(os.sep)) if os.path.isdir(os.path.abspath(os.path.join(os.path.sep, *sys.argv[-1].split(os.sep)[:i], '.git')))][::-1]
