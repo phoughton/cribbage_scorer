@@ -22,7 +22,6 @@ tasks:
       python -m venv venv
       source venv/bin/activate
       python -m pip install -r build_requirements.txt
-    openMode: split-right
   - command: source venv/bin/activate
     openMode: split-left
 
