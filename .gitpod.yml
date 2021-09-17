@@ -23,6 +23,7 @@ tasks:
       source venv/bin/activate
       python -m pip install -r build_requirements.txt
   - command: source venv/bin/activate
+    openMode: split-left
 
 vscode:
   extensions:
