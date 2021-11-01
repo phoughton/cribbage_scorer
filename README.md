@@ -6,6 +6,8 @@ For details, history and a good summary of the rules of the game see [Wikipedia]
 
 For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules)
 
+The code for the web server front end that uses this python API can be [found on GitHub](https://github.com/phoughton/cribbage_server).
+
 ## Installation 
 ```bash
 pip install cribbage-scorer
