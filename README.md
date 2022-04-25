@@ -4,7 +4,7 @@ Cribbage scorer is a simple scoring engine for the classic card game.
 
 For details, history and a good summary of the rules of the game see [Wikipedia](https://en.wikipedia.org/wiki/Cribbage)
 
-For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules)
+For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules) (see link to PDF)
 
 The code for the web server front end that uses this python API can be [found on GitHub](https://github.com/phoughton/cribbage_server).
 
@@ -124,7 +124,7 @@ Results:
 ```
 
 ### License:
-Copyright © 2021 Peter Houghton
+Copyright © 2022 Peter Houghton
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
