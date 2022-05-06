@@ -29,3 +29,36 @@ jobs:
       - name: Run unit tests
         run: |
           python -m pytest
+
+  deploy-to-pypi:
+  # Only run this job if "build" has ended successfully
+    needs:
+      - build-and-test
+    if: github.ref == 'refs/heads/master'  
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v2
+      - name: Set up Python 
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.9"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
+      
+      - name: install dependencies
+        run: |
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install -r build_requirements.txt
+      - name: upload_package
+        run: |
+          echo "[pypi]" > ~/.pypirc
+          chmod 700 ~/.pypirc
+          echo "username: __token__" >> ~/.pypirc
+          echo "password: $PYPI_LOGIN_TOKEN" >> ~/.pypirc
+          . venv/bin/activate
+          ls -lrt dist/
+          # python3 -m twine upload --verbose --skip-existing dist/*
