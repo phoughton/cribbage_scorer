@@ -60,7 +60,7 @@ jobs:
         run: |
           echo "[pypi]" > ~/.pypirc
           chmod 700 ~/.pypirc
-          echo "username: __token__" >> ~/.pypirc
-          echo "password: $PYPI_LOGIN_TOKEN" >> ~/.pypirc
+          echo "username = __token__" >> ~/.pypirc
+          echo "password = $PYPI_LOGIN_TOKEN" >> ~/.pypirc
           ls -lrt dist/
           python3 -m twine upload --verbose --skip-existing dist/*
