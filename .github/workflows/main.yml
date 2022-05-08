@@ -63,7 +63,7 @@ jobs:
           echo "[pypi]" > ~/.pypirc
           chmod 700 ~/.pypirc
           echo "username = __token__" >> ~/.pypirc
-          echo "password = "$PYPI_LOGIN_TOKEN" >> ~/.pypirc
+          echo "password = $PYPI_LOGIN_TOKEN" >> ~/.pypirc
           ls -lrt dist/
           pwd
           ls ~/.pypirc
