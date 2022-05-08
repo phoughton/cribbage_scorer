@@ -56,13 +56,17 @@ jobs:
         run: |
           python3 setup.py sdist bdist_wheel
 
+      - shell: bash
+        env:
+          PYPI_LOGIN_TOKEN: ${{ secrets.PYPI_LOGIN_TOKEN }}
+
       - name: upload_package
         run: |
           echo "[pypi]" > ~/.pypirc
           chmod 700 ~/.pypirc
           echo "username = __token__" >> ~/.pypirc
-          echo "password = $PYPI_LOGIN_TOKEN" >> ~/.pypirc
+          echo "password = "$PYPI_LOGIN_TOKEN" >> ~/.pypirc
           ls -lrt dist/
           pwd
-          cat  ~/.pypirc
+          ls ~/.pypirc
           python3 -m twine upload --verbose --skip-existing dist/*
