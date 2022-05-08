@@ -56,7 +56,7 @@ jobs:
         run: |
           python3 setup.py sdist bdist_wheel
 
-      - shell: bash
+      - name: upload
         env:
           PYPI_LOGIN_TOKEN: ${{ secrets.PYPI_LOGIN_TOKEN }}
         run: |
