@@ -64,4 +64,5 @@ jobs:
           echo "password = $PYPI_LOGIN_TOKEN" >> ~/.pypirc
           ls -lrt dist/
           pwd
+          cat  ~/.pypirc
           python3 -m twine upload --verbose --skip-existing dist/*
