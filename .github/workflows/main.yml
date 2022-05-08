@@ -59,8 +59,6 @@ jobs:
       - shell: bash
         env:
           PYPI_LOGIN_TOKEN: ${{ secrets.PYPI_LOGIN_TOKEN }}
-
-      - name: upload_package
         run: |
           echo "[pypi]" > ~/.pypirc
           chmod 700 ~/.pypirc
