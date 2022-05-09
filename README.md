@@ -6,7 +6,7 @@ For details, history and a good summary of the rules of the game see [Wikipedia]
 
 For instruction on how to play and the rules see the [American Cribbage Congress](http://www.cribbage.org/NewSite/rules) (see link to PDF)
 
-The code for the web server front end that uses this python API can be [found on GitHub](https://github.com/phoughton/cribbage_server). Raise a bug here if you find any.
+The code for the web server front end that uses this python API can be [found on GitHub](https://github.com/phoughton/cribbage_server). Raise a bug here if you find any. This server is also now available as a [Docker container](https://hub.docker.com/r/phoughton/python-cribbage).
 
 
 This package is tested against against Python versions: "3.6", "3.7", "3.8", "3.9", "3.10" on Ubuntu-latest. (But should work on Windows and Mac etc.)
