@@ -58,7 +58,8 @@ def play_calc_score_set(played_cards, players):
             go_played_by = last_player(cards, players)
             players_in_play.remove(go_played_by)
 
-        cards = remove_goes(cards)
+        # Remove GOs
+        cards = [card for card in cards if card != (0, "GO")]
 
         count, score, msg = play_score_ongoing(cards, index == len(played_cards))
 
@@ -70,14 +71,8 @@ def play_calc_score_set(played_cards, players):
         else:
             play_log.append(f"Count: {count}, No Points scored, {go_played_by} said Go. ")
 
-    return dict(scores), count, play_log
+    return scores, count, play_log
 
-
-def remove_goes(played_cards):
-    cards = played_cards.copy()
-    while (0, "GO") in cards:
-        cards.remove((0, "GO"))
-    return cards
 
 
 def play_score_ongoing(played_cards, last_card=False):
