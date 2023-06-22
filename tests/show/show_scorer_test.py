@@ -68,6 +68,18 @@ def test_multi_runs(starter, hand, expected_score, description):
         f"The hand description was: {description} "
 
 
+@pytest.mark.parametrize("starter, hand, expected_score, description", [
+    ((11, "C"), [(5, "H"), (5, "C"), (10, "H"), (12, "C")], 17, "?")
+])
+def test_multi_and_run_but_not_multirun(starter, hand, expected_score, description):
+    calculated_score = cribbage_scorer.show_calc_score(starter, hand)
+    print(calculated_score[1])
+    assert calculated_score[0] == expected_score, \
+        f"The calculated score was: {calculated_score}, the expected score: {expected_score}. " + \
+        f"The starter card was: {starter} and hand was: {hand}, " + \
+        f"The hand description was: {description} "
+
+
 @pytest.mark.parametrize("starter, hand, crib, expected_score, description", [
     ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], False, 5, "5 card flush"),
     ((8, "S"), [(12, "S"), (13, "S"), (1, "S"), (2, "S")], True, 5,  "5 card flush (crib)"),
