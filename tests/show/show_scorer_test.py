@@ -69,7 +69,9 @@ def test_multi_runs(starter, hand, expected_score, description):
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
-    ((11, "C"), [(5, "H"), (5, "C"), (10, "H"), (12, "C")], 17, "?")
+    ((11, "C"), [(5, "H"), (5, "C"), (10, "H"), (12, "C")], 17, "?"),
+    ((1, "C"), [(1, "H"), (2, "C"), (3, "H"), (3, "C")], 16, "?")
+
 ])
 def test_multi_and_run_but_not_multirun(starter, hand, expected_score, description):
     calculated_score = cribbage_scorer.show_calc_score(starter, hand)
