@@ -305,11 +305,8 @@ def score_runs(card_nums):
         group_length = len(group_list)
         if group_length >= 3:
             the_multiples = count_multiples(card_nums)
-            
-            multiples_in_run = 0
-            for card_num in the_multiples:
-                if card_num in group_list:
-                    multiples_in_run += 1
+
+            multiples_in_run = sum([1 for card_num in the_multiples if card_num in group_list])
 
             if multiples_in_run > 0:
                 running_msg.append(f"Multi-run: {card_nameify(card_nums)} ({group_length * multiples_in_run}pts)")
