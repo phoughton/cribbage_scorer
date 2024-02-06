@@ -1,4 +1,2 @@
-FROM mcr.microsoft.com/devcontainers/python:0-3.11
+FROM phoughton/python-dev-main
 
-
-RUN echo 'alias ll="ls -lrta"'  >> ~vscode/.bashrc
