@@ -4,3 +4,5 @@ setuptools
 wheel
 twine
 zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+pytest
+cosmic-ray
