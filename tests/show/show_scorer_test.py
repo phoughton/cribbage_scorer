@@ -20,6 +20,7 @@ def test_multiples(starter, hand, expected_score, description):
 
 
 @pytest.mark.parametrize("starter, hand, expected_score, description", [
+        ((8, "S"), [(2, "D"), (2, "S"), (2, "C"), (1, "H")], 8, "All cards make 15 and triple"),
         ((1, "S"), [(5, "D"), (10, "S"), (2, "C"), (6, "H")], 2, "simple, 15,= from 1 x 2 cards"),
         ((2, "S"), [(5, "D"), (10, "S"), (9, "C"), (6, "H")], 4, "simple, 2 x 15 from 2 x 2 cards"),
         ((2, "S"), [(3, "D"), (10, "S"), (7, "C"), (9, "H")], 2, "simple, 1 x 15 from 1 x 3 cards"),
